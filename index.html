@@ -477,7 +477,7 @@
           <el-form-item label="预警盈利率(%)" required>
             <el-input-number v-model="tierForm.alertProfitRate" :precision="2" :step="10" :min="0" style="width: 100%;"></el-input-number>
             <div style="color: #909399; font-size: 12px; margin-top: 5px;">
-              提示: 净充值≤0的档位建议设置较高阈值
+              提示: 净充值≤0的档位的净充值按 1 USDT 计算盈利率
             </div>
           </el-form-item>
           <el-form-item label="状态" required>
@@ -1010,123 +1010,216 @@ if (净充值 <= 0) {
     <!-- 前端规范标签页 -->
     <div class="tab-content" v-show="globalTab === 'frontend'">
       <h1>前端开发规范</h1>
-      <h2>一、技术栈</h2>
+
+      <h2>一、档位名称自动生成规则</h2>
+      <h3>1. 生成逻辑</h3>
+      <p>档位名称由系统自动生成,格式为: <strong>群组简称 - 净充值区间</strong></p>
+
+      <h3>2. 群组简称映射</h3>
+      <pre>const groupMap = {
+  '1': '小额',
+  '2': '中额',
+  '3': '大额'
+};</pre>
+
+      <h3>3. 区间描述规则</h3>
+      <pre>// 如果最小净充值 <= 0 且 最大净充值 = 0
+区间描述 = "净充值≤0"
+
+// 如果最大净充值 >= 999999
+区间描述 = "净充值{最小值}+USDT"
+
+// 其他情况
+区间描述 = "净充值{最小值}-{最大值}USDT"</pre>
+
+      <h3>4. 示例</h3>
       <ul>
-        <li>Vue.js 2.x</li>
-        <li>Element UI</li>
-        <li>Axios (HTTP请求)</li>
-        <li>CRUD Mixin模式</li>
+        <li>群组=小额, 区间=[-999999, 0) → "小额 - 净充值≤0"</li>
+        <li>群组=小额, 区间=[0, 50) → "小额 - 净充值0-50USDT"</li>
+        <li>群组=中额, 区间=[50, 100) → "中额 - 净充值50-100USDT"</li>
+        <li>群组=大额, 区间=[500, 999999) → "大额 - 净充值500+USDT"</li>
       </ul>
 
-      <h2>二、页面结构</h2>
-      <h3>1. 档位管理页面</h3>
-      <p>路径: src/views/profitAlert/tier/index.vue</p>
+      <h3>5. 实现代码</h3>
+      <pre>computed: {
+  generatedTierName() {
+    const groupMap = { '1': '小额', '2': '中额', '3': '大额' };
+    const groupName = groupMap[this.form.groupId];
+    const min = this.form.minNetDeposit;
+    const max = this.form.maxNetDeposit;
+
+    let range = '';
+    if (min <= 0 && max === 0) {
+      range = '净充值≤0';
+    } else if (max >= 999999) {
+      range = `净充值${min}+USDT`;
+    } else {
+      range = `净充值${min}-${max}USDT`;
+    }
+
+    return `${groupName} - ${range}`;
+  }
+}</pre>
+
+      <h2>二、区间重叠校验规则</h2>
+      <h3>1. 校验时机</h3>
+      <p>在保存档位时(新增或编辑),必须校验净充值区间是否与已有档位重叠。</p>
+
+      <h3>2. 校验范围</h3>
+      <p><strong>重要</strong>: 必须校验所有档位(包括不同群组),不能只校验同一群组内的档位。</p>
+
+      <h3>3. 重叠判断公式</h3>
+      <pre>// 两个区间 [min1, max1) 和 [min2, max2) 重叠的条件:
+min1 < max2 && min2 < max1</pre>
+
+      <h3>4. 校验逻辑</h3>
+      <pre>// 遍历所有已有档位
+for (let tier of existingTiers) {
+  // 跳过当前编辑的档位本身
+  if (tier.id === currentTier.id) continue;
+
+  // 判断是否重叠
+  if (currentTier.minNetDeposit < tier.maxNetDeposit &&
+      tier.minNetDeposit < currentTier.maxNetDeposit) {
+    // 重叠,提示错误
+    this.$message.error('该区间与其他区间重叠');
+    return false;
+  }
+}
+return true;</pre>
+
+      <h3>5. 错误提示</h3>
+      <p>统一使用: <strong>"该区间与其他区间重叠"</strong></p>
+
+      <h2>三、表格排序规则</h2>
+      <h3>1. 排序字段</h3>
+      <p>按 <strong>最小净充值</strong> 字段排序</p>
+
+      <h3>2. 排序方向</h3>
+      <p>从小到大(升序),负数在前,正数在后</p>
+
+      <h3>3. 实现方式</h3>
+      <pre>computed: {
+  sortedTableData() {
+    return [...this.tableData].sort((a, b) =>
+      a.minNetDeposit - b.minNetDeposit
+    );
+  }
+}</pre>
+
+      <h3>4. 排序示例</h3>
+      <pre>原始数据:
+- 档位A: 最小净充值 = 50
+- 档位B: 最小净充值 = -999999
+- 档位C: 最小净充值 = 100
+- 档位D: 最小净充值 = 0
+
+排序后:
+1. 档位B: 最小净充值 = -999999
+2. 档位D: 最小净充值 = 0
+3. 档位A: 最小净充值 = 50
+4. 档位C: 最小净充值 = 100</pre>
+
+      <h2>四、表单校验规则</h2>
+      <h3>1. 必填项校验</h3>
       <ul>
-        <li>筛选区: 所属群组、状态</li>
-        <li>操作按钮: 搜索、重置、新增档位</li>
-        <li>表格: 展示档位列表,按最小净充值排序</li>
-        <li>操作列: 编辑、删除</li>
-        <li>对话框: 新增/编辑档位</li>
+        <li>所属群组: 必选</li>
+        <li>最小净充值: 必填,可为负数</li>
+        <li>最大净充值: 必填</li>
+        <li>预警盈利率: 必填,必须大于0</li>
       </ul>
 
-      <h3>2. 预警记录页面</h3>
-      <p>路径: src/views/profitAlert/record/index.vue</p>
-      <ul>
-        <li>筛选区: 用户UID、档位、报警时间范围</li>
-        <li>操作按钮: 搜索、重置、导出</li>
-        <li>表格: 展示预警记录</li>
-      </ul>
+      <h3>2. 数值校验</h3>
+      <pre>// 最小净充值必须小于最大净充值
+if (this.form.minNetDeposit >= this.form.maxNetDeposit) {
+  this.$message.error('最小净充值必须小于最大净充值');
+  return false;
+}</pre>
 
-      <h2>三、关键字段处理</h2>
-      <h3>1. 档位名称自动生成</h3>
-      <p>档位名称由系统自动生成,无需手动输入。格式为: 群组简称 - 净充值区间</p>
+      <h3>3. 完整校验流程</h3>
+      <pre>saveTier() {
+  // 1. 必填项校验
+  if (!this.form.groupId) {
+    this.$message.error('请选择所属群组');
+    return;
+  }
+  if (this.form.minNetDeposit === null || this.form.minNetDeposit === '') {
+    this.$message.error('请填写最小净充值');
+    return;
+  }
+  if (this.form.maxNetDeposit === null || this.form.maxNetDeposit === '') {
+    this.$message.error('请填写最大净充值');
+    return;
+  }
+  if (!this.form.alertProfitRate || this.form.alertProfitRate <= 0) {
+    this.$message.error('请填写预警盈利率');
+    return;
+  }
 
-      <h3>2. 区间重叠校验</h3>
-      <p>保存时必须校验所有档位(包括不同群组)的净充值区间是否重叠。</p>
+  // 2. 数值校验
+  if (this.form.minNetDeposit >= this.form.maxNetDeposit) {
+    this.$message.error('最小净充值必须小于最大净充值');
+    return;
+  }
 
-      <h3>3. 表格排序</h3>
-      <p>表格默认按最小净充值从小到大排序。</p>
+  // 3. 区间重叠校验
+  const isOverlap = this.tableData.some(tier => {
+    if (tier.id === this.form.id) return false;
+    return this.form.minNetDeposit < tier.maxNetDeposit &&
+           tier.minNetDeposit < this.form.maxNetDeposit;
+  });
 
-      <h2>四、API接口</h2>
-      <h3>档位管理</h3>
-      <ul>
-        <li>GET /api/profit-alert/tier/list - 查询档位列表</li>
-        <li>POST /api/profit-alert/tier/save - 新增/编辑档位</li>
-        <li>DELETE /api/profit-alert/tier/delete - 删除档位</li>
-      </ul>
+  if (isOverlap) {
+    this.$message.error('该区间与其他区间重叠');
+    return;
+  }
 
-      <h3>预警记录</h3>
-      <ul>
-        <li>GET /api/profit-alert/record/list - 查询预警记录</li>
-        <li>GET /api/profit-alert/record/export - 导出预警记录</li>
-      </ul>
+  // 4. 保存
+  this.$message.success('保存成功');
+  this.dialogVisible = false;
+}</pre>
+
     </div>
 
     <!-- 群通知模板标签页 -->
     <div class="tab-content" v-show="globalTab === 'template'">
-      <h1>Telegram群通知模板</h1>
-      <h2>一、预警消息模板</h2>
-      <pre>🚨 盈利率预警
+      <h1>Telegram 通知内容</h1>
 
-用户UID: {member_id}
-档位: {tier_name}
-净充值: {net_deposit} USDT
-历史最高净充值: {max_net_deposit} USDT
-总资产: {total_assets} USDT
-累计盈利: {total_profit} USDT
-盈利率: {profit_rate}%
-报警时间: {alert_time}</pre>
+      <h2>消息格式(正常用户)</h2>
+      <pre>⚠️ 盈利率预警 ⚠️
 
-      <h2>二、消息示例</h2>
-      <h3>示例1: 正常盈利用户</h3>
-      <pre>🚨 盈利率预警
-
-用户UID: 100234
+用户UID: 123456
 档位: 小额 - 净充值1-50USDT
-净充值: 30 USDT
-历史最高净充值: 50 USDT
-总资产: 180 USDT
-累计盈利: 150 USDT
-盈利率: 500%
-报警时间: 2025-01-16 14:30:25</pre>
 
-      <h3>示例2: 负净充值用户(重点关注)</h3>
-      <pre>🚨 盈利率预警
+总充值: 100.00 USDT
+总提现: 0.00 USDT
+净充值: 100.00 USDT
+历史最高净充值: 100.00 USDT
+总资产: 500.00 USDT
+累计盈利: 400.00 USDT
+盈利率: 400.00%
+触发时间: 2025-01-16 14:30:25
 
-用户UID: 100567
+---
+请及时关注该用户交易行为</pre>
+
+      <h2>消息格式(负净充值用户) ⚠️</h2>
+      <pre>⚠️⚠️ 盈利率预警(异常盈利) ⚠️⚠️
+
+用户UID: 123456
 档位: 小额 - 净充值≤0
-净充值: -350 USDT
-历史最高净充值: 100 USDT
-总资产: 50 USDT
-累计盈利: 400 USDT
-盈利率: 40000%
-报警时间: 2025-01-16 15:45:10</pre>
 
-      <h3>示例3: 大额用户</h3>
-      <pre>🚨 盈利率预警
+总充值: 100.00 USDT
+总提现: 550.00 USDT
+净充值: -450.00 USDT
+历史最高净充值: 500.00 USDT
+总资产: 75.00 USDT
+累计盈利: 525.00 USDT
+盈利率: 52,500% (基于净充值1 USDT计算)
+触发时间: 2025-01-16 14:30:25
 
-用户UID: 100789
-档位: 大额 - 净充值500+USDT
-净充值: 1000 USDT
-历史最高净充值: 2000 USDT
-总资产: 4500 USDT
-累计盈利: 3500 USDT
-盈利率: 350%
-报警时间: 2025-01-16 16:20:33</pre>
-
-      <h2>三、后端实现要点</h2>
-      <h3>1. 消息发送</h3>
-      <p>使用 SendBotMessageService 发送消息到对应的 Telegram 群组。</p>
-
-      <h3>2. 数字格式化</h3>
-      <ul>
-        <li>金额保留2位小数</li>
-        <li>盈利率保留2位小数</li>
-        <li>负数正常显示,不需要特殊处理</li>
-      </ul>
-
-      <h2>四、群组配置</h2>
-      <p>在"通知管理 > 群通知"中配置三个群组的Bot Token和Chat ID,确保消息能正常发送到对应的Telegram群。</p>
+---
+⚠️ 该用户本金已提走,仍在持续盈利,请重点关注!</pre>
     </div>
 
   </div>
