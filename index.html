@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>盈利率预警系统 - 高保真原型</title>
+  <title>盈利率预警系统 - 改进版原型</title>
   <!-- Element UI CSS -->
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
   <style>
@@ -120,60 +120,6 @@
       overflow-y: auto;
       padding: 20px;
     }
-    /* 文档内容样式 */
-    .doc-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 40px;
-      border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .doc-container h1 {
-      font-size: 28px;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #1890ff;
-      padding-bottom: 10px;
-    }
-    .doc-container h2 {
-      font-size: 22px;
-      margin-top: 30px;
-      margin-bottom: 15px;
-      color: #1890ff;
-    }
-    .doc-container h3 {
-      font-size: 18px;
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-    .doc-container pre {
-      background: #f5f5f5;
-      padding: 15px;
-      border-radius: 4px;
-      overflow-x: auto;
-    }
-    .doc-container table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 15px 0;
-    }
-    .doc-container table th,
-    .doc-container table td {
-      border: 1px solid #e8e8e8;
-      padding: 10px;
-      text-align: left;
-    }
-    .doc-container table th {
-      background: #fafafa;
-      font-weight: bold;
-    }
-    .doc-container ul, .doc-container ol {
-      margin: 10px 0;
-      padding-left: 30px;
-    }
-    .doc-container li {
-      margin: 5px 0;
-    }
     .page-container {
       max-width: 1400px;
       margin: 0 auto;
@@ -186,35 +132,221 @@
       padding-left: 10px;
       border-left: 3px solid #1890ff;
     }
-    .app-container {
-      background: #fff;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
-      margin-bottom: 30px;
+    /* 群组区域 */
+    .group-section {
+      margin-bottom: 40px;
     }
-    .head-container {
-      margin-bottom: 20px;
+    .group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 0 10px 0;
+      border-bottom: 2px solid #333;
+      margin-bottom: 15px;
     }
-    .filter-item {
-      margin-right: 10px;
-      margin-bottom: 10px;
+    .group-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
     }
-    .el-form-item-label {
-      font-weight: 700;
+    .group-count {
+      font-size: 13px;
+      color: #909399;
+      font-weight: normal;
+    }
+    /* 档位项 */
+    .tier-item {
+      padding: 0;
+      margin-bottom: 18px;
+    }
+    .tier-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .tier-item-title {
+      font-weight: 500;
+      color: #303133;
+      font-size: 14px;
+    }
+    .tier-divider {
+      border: none;
+      border-top: 1px solid #d9d9d9;
+      margin: 8px 0;
+    }
+    .tier-info-row {
+      display: grid;
+      grid-template-columns: 140px 1fr 140px 1fr 140px 1fr 140px 1fr;
+      gap: 10px 20px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .tier-info-label {
       color: #606266;
-      padding-right: 12px;
     }
-    .dialog-footer {
-      text-align: right;
+    .tier-info-value {
+      color: #303133;
     }
-
+    .tier-item-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    /* 新增档位表单 */
+    .add-tier-form {
+      padding: 0;
+      margin-bottom: 18px;
+    }
+    .add-tier-form-title {
+      font-weight: 500;
+      color: #303133;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .add-tier-form-row {
+      display: grid;
+      grid-template-columns: 140px 1fr 140px 1fr 140px 1fr;
+      gap: 10px 20px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      line-height: 1.6;
+      align-items: center;
+    }
+    .form-group {
+      display: contents;
+    }
+    .form-group label {
+      color: #606266;
+    }
+    .form-group input,
+    .form-group select {
+      padding: 4px 8px;
+      border: 1px solid #dcdfe6;
+      border-radius: 3px;
+      font-size: 13px;
+      height: 28px;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #1890ff;
+    }
+    /* Tooltip 样式 */
+    .label-with-tip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tip-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background-color: #909399;
+      color: white;
+      font-size: 10px;
+      cursor: help;
+      position: relative;
+    }
+    .tip-icon:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: 50%;
+      bottom: 120%;
+      transform: translateX(-50%);
+      background-color: #303133;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .tip-icon:hover::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 110%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: #303133;
+      z-index: 1000;
+    }
+    .add-tier-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .add-tier-actions button {
+      padding: 6px 16px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    .btn-save {
+      background-color: #1890ff;
+      color: #fff;
+    }
+    .btn-save:hover {
+      background-color: #40a9ff;
+    }
+    .btn-cancel {
+      background-color: #f5f7fa;
+      color: #606266;
+      border: 1px solid #dfe6ec;
+    }
+    .btn-cancel:hover {
+      background-color: #e8eaed;
+    }
+    .btn-add {
+      background-color: transparent;
+      color: #606266;
+      border: none;
+      padding: 8px 0;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.3s;
+      text-align: left;
+    }
+    .btn-add:hover {
+      color: #1890ff;
+    }
+    .btn-edit, .btn-delete, .btn-view {
+      padding: 0;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.3s;
+      color: #1890ff;
+      text-decoration: none;
+    }
+    .btn-edit:hover, .btn-view:hover {
+      color: #40a9ff;
+      text-decoration: underline;
+    }
+    .btn-delete {
+      color: #f5222d;
+    }
+    .btn-delete:hover {
+      color: #ff4d4f;
+      text-decoration: underline;
+    }
     #app {
       display: flex;
       flex-direction: column;
       height: 100vh;
     }
 
+    /* 标签页内容样式 */
     .tab-content {
       flex: 1;
       overflow-y: auto;
@@ -223,44 +355,43 @@
       width: 100%;
       height: calc(100vh - 60px);
     }
-
     .tab-content h1 {
       font-size: 24px;
       margin-bottom: 20px;
       color: #303133;
     }
-
     .tab-content h2 {
       font-size: 18px;
       margin-top: 20px;
       margin-bottom: 15px;
       color: #606266;
     }
-
     .tab-content h3 {
       font-size: 16px;
       margin-top: 15px;
       margin-bottom: 10px;
       color: #909399;
     }
-
+    .tab-content h4 {
+      font-size: 14px;
+      margin-top: 12px;
+      margin-bottom: 8px;
+      color: #909399;
+    }
     .tab-content p {
       margin-bottom: 10px;
       line-height: 1.6;
       color: #606266;
     }
-
     .tab-content ul {
       margin-left: 20px;
       margin-bottom: 10px;
     }
-
     .tab-content li {
       margin-bottom: 8px;
       line-height: 1.6;
       color: #606266;
     }
-
     .tab-content pre {
       background-color: #f5f7fa;
       padding: 12px;
@@ -270,51 +401,29 @@
       font-size: 12px;
       line-height: 1.5;
     }
-
     .tab-content table {
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 10px;
     }
-
     .tab-content table th,
     .tab-content table td {
       border: 1px solid #dfe6ec;
       padding: 10px;
       text-align: left;
     }
-
     .tab-content table th {
       background-color: #f5f7fa;
       font-weight: bold;
     }
-
-    .tier-group-header {
-      background-color: #f5f7fa;
-      padding: 10px;
-      font-weight: bold;
+    .tab-content hr {
+      margin: 20px 0;
+      border: none;
+      border-top: 1px solid #dcdfe6;
+    }
+    .tab-content strong {
+      font-weight: 600;
       color: #303133;
-    }
-    /* 模拟 Element UI 表格样式 */
-    .el-table {
-      width: 100%;
-      border: 1px solid #dfe6ec;
-    }
-    .el-table th {
-      background-color: #f5f7fa;
-      color: #606266;
-      font-weight: 500;
-      padding: 12px 0;
-      text-align: center;
-      border-bottom: 1px solid #dfe6ec;
-    }
-    .el-table td {
-      padding: 12px 0;
-      text-align: center;
-      border-bottom: 1px solid #dfe6ec;
-    }
-    .el-table tr:hover {
-      background-color: #f5f7fa;
     }
   </style>
 </head>
@@ -344,30 +453,16 @@
       <div class="sidebar">
         <div class="sidebar-header">BITDU Admin</div>
 
-        <!-- 通知管理 -->
+        <!-- 风控管理 -->
         <div class="menu-group">
           <div class="menu-group-title" @click="toggleMenu('notify')">
-            <span><i class="el-icon-message"></i> 通知管理</span>
+            <span><i class="el-icon-message"></i> 风控管理</span>
             <i :class="menuOpen.notify ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
           </div>
           <div class="submenu" :class="{ open: menuOpen.notify }">
-            <div class="menu-item" @click="currentPage = 'tier'" :class="{ active: currentPage === 'tier' }">
+            <div class="menu-item active">
               <i class="el-icon-setting"></i>
-              盈利率预警档位配置
-            </div>
-          </div>
-        </div>
-
-        <!-- 风控管理 -->
-        <div class="menu-group">
-          <div class="menu-group-title" @click="toggleMenu('risk')">
-            <span><i class="el-icon-warning"></i> 风控管理</span>
-            <i :class="menuOpen.risk ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          </div>
-          <div class="submenu" :class="{ open: menuOpen.risk }">
-            <div class="menu-item" @click="currentPage = 'record'" :class="{ active: currentPage === 'record' }">
-              <i class="el-icon-document"></i>
-              盈利率预警记录
+              净充值盈利率配置查询
             </div>
           </div>
         </div>
@@ -376,211 +471,416 @@
       <!-- 主内容区 -->
       <div class="main-container">
         <div class="page-container">
+          <h1 class="page-title">净充值盈利率配置查询</h1>
 
-          <!-- ==================== 4.2 档位管理 ==================== -->
-          <div v-show="currentPage === 'tier'">
-            <h1 class="page-title">盈利率预警档位配置</h1>
-      
-      <div class="app-container">
-        <!-- 工具栏 -->
-        <div class="head-container">
-          <div style="margin-bottom: 15px;">
-            <label class="el-form-item-label">所属群组</label>
-            <el-select v-model="tierQuery.groupId" clearable placeholder="所属群组" style="width: 200px" class="filter-item">
-              <el-option label="小额净充值盈利预警群" value="1"></el-option>
-              <el-option label="中额净充值盈利预警群" value="2"></el-option>
-              <el-option label="大额净充值盈利预警群" value="3"></el-option>
-            </el-select>
-            
-            <label class="el-form-item-label">状态</label>
-            <el-select v-model="tierQuery.status" clearable placeholder="状态" style="width: 150px" class="filter-item">
-              <el-option label="开启" value="1"></el-option>
-              <el-option label="关闭" value="0"></el-option>
-            </el-select>
-            
-            <el-button class="filter-item" size="mini" type="success" icon="el-icon-search">搜索</el-button>
-            <el-button class="filter-item" size="mini" type="warning" icon="el-icon-refresh-left">重置</el-button>
+          <!-- 小额群组 -->
+          <div class="group-section">
+            <div class="group-header">
+              <div class="group-title">小额净充值盈利预警群</div>
+              <div class="group-count">共 {{ smallTiers.length }} 个档位</div>
+            </div>
+
+            <!-- 档位列表 -->
+            <div v-for="tier in smallTiers" :key="tier.id" class="tier-item">
+              <!-- 查看模式 -->
+              <template v-if="editingTierId !== tier.id">
+                <div class="tier-item-header">
+                  <div class="tier-item-title">{{ tier.tierName }}</div>
+                  <el-tag :type="tier.status === 1 ? 'success' : 'info'" size="small">
+                    {{ tier.status === 1 ? '开启' : '关闭' }}
+                  </el-tag>
+                </div>
+                <hr class="tier-divider">
+                <div class="tier-info-row">
+                  <span class="tier-info-label">净充值区间</span>
+                  <span class="tier-info-value">{{ tier.minNetDeposit.toLocaleString() }} ~ {{ tier.maxNetDeposit.toLocaleString() }} USDT</span>
+                  <span class="tier-info-label">预警盈利率</span>
+                  <span class="tier-info-value">{{ tier.alertProfitRate.toLocaleString() }}%</span>
+                  <span class="tier-info-label">触发次数</span>
+                  <span class="tier-info-value">{{ tier.triggerCount }} 次</span>
+                  <span class="tier-info-label">涉及用户</span>
+                  <span class="tier-info-value">{{ tier.userCount }} 个</span>
+                </div>
+                <div class="tier-item-actions">
+                  <button class="btn-view" @click="viewTriggerRecords(tier)">查看触发记录</button>
+                  <button class="btn-edit" @click="editTier(tier)">编辑</button>
+                  <button class="btn-delete" @click="deleteTier(tier)">删除</button>
+                </div>
+              </template>
+
+              <!-- 编辑模式 -->
+              <template v-else>
+                <div class="add-tier-form-title">编辑档位</div>
+                <hr class="tier-divider">
+                <div class="add-tier-form-row">
+                  <label>最小净充值（≥）</label>
+                  <input v-model.number="newTierForm.minNetDeposit" type="number">
+                  <label>最大净充值（<）</label>
+                  <input v-model.number="newTierForm.maxNetDeposit" type="number">
+                  <label class="label-with-tip">
+                    <span>预警盈利率（%）</span>
+                    <span class="tip-icon" data-tip="累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                  </label>
+                  <input v-model.number="newTierForm.alertProfitRate" type="number">
+                </div>
+                <div class="add-tier-form-row">
+                  <label>状态</label>
+                  <select v-model.number="newTierForm.status">
+                    <option :value="1">开启</option>
+                    <option :value="0">关闭</option>
+                  </select>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="add-tier-actions">
+                  <button class="btn-save" @click="saveEdit">保存</button>
+                  <button class="btn-cancel" @click="cancelEdit">取消</button>
+                </div>
+              </template>
+            </div>
+
+            <!-- 新增档位表单 -->
+            <div v-if="addingGroupId === '1'" class="add-tier-form">
+              <div class="add-tier-form-title">新增档位</div>
+              <hr class="tier-divider">
+              <div class="add-tier-form-row">
+                <label>最小净充值（≥）</label>
+                <input v-model.number="newTierForm.minNetDeposit" type="number" placeholder="如: -999999">
+                <label>最大净充值（<）</label>
+                <input v-model.number="newTierForm.maxNetDeposit" type="number" placeholder="如: 50">
+                <label class="label-with-tip">
+                  <span>预警盈利率（%）</span>
+                  <span class="tip-icon" data-tip="累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                </label>
+                <input v-model.number="newTierForm.alertProfitRate" type="number" placeholder="如: 500">
+              </div>
+              <div class="add-tier-form-row">
+                <label>状态</label>
+                <select v-model.number="newTierForm.status">
+                  <option :value="1">开启</option>
+                  <option :value="0">关闭</option>
+                </select>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="add-tier-actions">
+                <button class="btn-save" @click="saveNewTier('1')">保存</button>
+                <button class="btn-cancel" @click="cancelAddTier">取消</button>
+              </div>
+            </div>
+
+            <!-- 新增按钮 -->
+            <button v-else class="btn-add" @click="startAddTier('1')">➕ 新增档位</button>
           </div>
-          
-          <div>
-            <el-button class="filter-item" size="mini" type="primary" icon="el-icon-plus" @click="openTierDialog">新增档位</el-button>
+
+          <!-- 中额群组 -->
+          <div class="group-section">
+            <div class="group-header">
+              <div class="group-title">中额净充值盈利预警群</div>
+              <div class="group-count">共 {{ mediumTiers.length }} 个档位</div>
+            </div>
+
+            <!-- 档位列表 -->
+            <div v-for="tier in mediumTiers" :key="tier.id" class="tier-item">
+              <!-- 查看模式 -->
+              <template v-if="editingTierId !== tier.id">
+                <div class="tier-item-header">
+                  <div class="tier-item-title">{{ tier.tierName }}</div>
+                  <el-tag :type="tier.status === 1 ? 'success' : 'info'" size="small">
+                    {{ tier.status === 1 ? '开启' : '关闭' }}
+                  </el-tag>
+                </div>
+                <hr class="tier-divider">
+                <div class="tier-info-row">
+                  <span class="tier-info-label">净充值区间</span>
+                  <span class="tier-info-value">{{ tier.minNetDeposit.toLocaleString() }} ~ {{ tier.maxNetDeposit.toLocaleString() }} USDT</span>
+                  <span class="tier-info-label">预警盈利率</span>
+                  <span class="tier-info-value">{{ tier.alertProfitRate.toLocaleString() }}%</span>
+                  <span class="tier-info-label">触发次数</span>
+                  <span class="tier-info-value">{{ tier.triggerCount }} 次</span>
+                  <span class="tier-info-label">涉及用户</span>
+                  <span class="tier-info-value">{{ tier.userCount }} 个</span>
+                </div>
+                <div class="tier-item-actions">
+                  <button class="btn-view" @click="viewTriggerRecords(tier)">查看触发记录</button>
+                  <button class="btn-edit" @click="editTier(tier)">编辑</button>
+                  <button class="btn-delete" @click="deleteTier(tier)">删除</button>
+                </div>
+              </template>
+
+              <!-- 编辑模式 -->
+              <template v-else>
+                <div class="add-tier-form-title">编辑档位</div>
+                <hr class="tier-divider">
+                <div class="add-tier-form-row">
+                  <label>最小净充值（≥）</label>
+                  <input v-model.number="newTierForm.minNetDeposit" type="number">
+                  <label>最大净充值（<）</label>
+                  <input v-model.number="newTierForm.maxNetDeposit" type="number">
+                  <label class="label-with-tip">
+                    <span>预警盈利率（%）</span>
+                    <span class="tip-icon" data-tip="累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                  </label>
+                  <input v-model.number="newTierForm.alertProfitRate" type="number">
+                </div>
+                <div class="add-tier-form-row">
+                  <label>状态</label>
+                  <select v-model.number="newTierForm.status">
+                    <option :value="1">开启</option>
+                    <option :value="0">关闭</option>
+                  </select>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="add-tier-actions">
+                  <button class="btn-save" @click="saveEdit">保存</button>
+                  <button class="btn-cancel" @click="cancelEdit">取消</button>
+                </div>
+              </template>
+            </div>
+
+            <!-- 新增档位表单 -->
+            <div v-if="addingGroupId === '2'" class="add-tier-form">
+              <div class="add-tier-form-title">新增档位</div>
+              <hr class="tier-divider">
+              <div class="add-tier-form-row">
+                <label>最小净充值（≥）</label>
+                <input v-model.number="newTierForm.minNetDeposit" type="number" placeholder="如: 50">
+                <label>最大净充值（<）</label>
+                <input v-model.number="newTierForm.maxNetDeposit" type="number" placeholder="如: 100">
+                <label class="label-with-tip">
+                  <span>预警盈利率（%）</span>
+                  <span class="tip-icon" data-tip="累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                </label>
+                <input v-model.number="newTierForm.alertProfitRate" type="number" placeholder="如: 450">
+              </div>
+              <div class="add-tier-form-row">
+                <label>状态</label>
+                <select v-model.number="newTierForm.status">
+                  <option :value="1">开启</option>
+                  <option :value="0">关闭</option>
+                </select>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="add-tier-actions">
+                <button class="btn-save" @click="saveNewTier('2')">保存</button>
+                <button class="btn-cancel" @click="cancelAddTier">取消</button>
+              </div>
+            </div>
+
+            <!-- 新增按钮 -->
+            <button v-else class="btn-add" @click="startAddTier('2')">➕ 新增档位</button>
           </div>
+
+          <!-- 大额群组 -->
+          <div class="group-section">
+            <div class="group-header">
+              <div class="group-title">大额净充值盈利预警群</div>
+              <div class="group-count">共 {{ largeTiers.length }} 个档位</div>
+            </div>
+
+            <!-- 档位列表 -->
+            <div v-for="tier in largeTiers" :key="tier.id" class="tier-item">
+              <!-- 查看模式 -->
+              <template v-if="editingTierId !== tier.id">
+                <div class="tier-item-header">
+                  <div class="tier-item-title">{{ tier.tierName }}</div>
+                  <el-tag :type="tier.status === 1 ? 'success' : 'info'" size="small">
+                    {{ tier.status === 1 ? '开启' : '关闭' }}
+                  </el-tag>
+                </div>
+                <hr class="tier-divider">
+                <div class="tier-info-row">
+                  <span class="tier-info-label">净充值区间</span>
+                  <span class="tier-info-value">{{ tier.minNetDeposit.toLocaleString() }} ~ {{ tier.maxNetDeposit.toLocaleString() }} USDT</span>
+                  <span class="tier-info-label">预警盈利率</span>
+                  <span class="tier-info-value">{{ tier.alertProfitRate.toLocaleString() }}%</span>
+                  <span class="tier-info-label">触发次数</span>
+                  <span class="tier-info-value">{{ tier.triggerCount }} 次</span>
+                  <span class="tier-info-label">涉及用户</span>
+                  <span class="tier-info-value">{{ tier.userCount }} 个</span>
+                </div>
+                <div class="tier-item-actions">
+                  <button class="btn-view" @click="viewTriggerRecords(tier)">查看触发记录</button>
+                  <button class="btn-edit" @click="editTier(tier)">编辑</button>
+                  <button class="btn-delete" @click="deleteTier(tier)">删除</button>
+                </div>
+              </template>
+
+              <!-- 编辑模式 -->
+              <template v-else>
+                <div class="add-tier-form-title">编辑档位</div>
+                <hr class="tier-divider">
+                <div class="add-tier-form-row">
+                  <label>最小净充值（≥）</label>
+                  <input v-model.number="newTierForm.minNetDeposit" type="number">
+                  <label>最大净充值（<）</label>
+                  <input v-model.number="newTierForm.maxNetDeposit" type="number">
+                  <label class="label-with-tip">
+                    <span>预警盈利率（%）</span>
+                    <span class="tip-icon" data-tip="累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                  </label>
+                  <input v-model.number="newTierForm.alertProfitRate" type="number">
+                </div>
+                <div class="add-tier-form-row">
+                  <label>状态</label>
+                  <select v-model.number="newTierForm.status">
+                    <option :value="1">开启</option>
+                    <option :value="0">关闭</option>
+                  </select>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="add-tier-actions">
+                  <button class="btn-save" @click="saveEdit">保存</button>
+                  <button class="btn-cancel" @click="cancelEdit">取消</button>
+                </div>
+              </template>
+            </div>
+
+            <!-- 新增档位表单 -->
+            <div v-if="addingGroupId === '3'" class="add-tier-form">
+              <div class="add-tier-form-title">新增档位</div>
+              <hr class="tier-divider">
+              <div class="add-tier-form-row">
+                <label>最小净充值（≥）</label>
+                <input v-model.number="newTierForm.minNetDeposit" type="number" placeholder="如: 200">
+                <label>最大净充值（<）</label>
+                <input v-model.number="newTierForm.maxNetDeposit" type="number" placeholder="如: 500">
+                <label class="label-with-tip">
+                  <span>预警盈利率（%）</span>
+                  <span class="tip-icon" data-tip="累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                </label>
+                <input v-model.number="newTierForm.alertProfitRate" type="number" placeholder="如: 350">
+              </div>
+              <div class="add-tier-form-row">
+                <label>状态</label>
+                <select v-model.number="newTierForm.status">
+                  <option :value="1">开启</option>
+                  <option :value="0">关闭</option>
+                </select>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="add-tier-actions">
+                <button class="btn-save" @click="saveNewTier('3')">保存</button>
+                <button class="btn-cancel" @click="cancelAddTier">取消</button>
+              </div>
+            </div>
+
+            <!-- 新增按钮 -->
+            <button v-else class="btn-add" @click="startAddTier('3')">➕ 新增档位</button>
+          </div>
+
         </div>
-
-        <!-- 表格 -->
-        <el-table :data="sortedTierTableData" size="small" style="width: 100%">
-          <el-table-column prop="groupName" label="所属群组" width="200"></el-table-column>
-          <el-table-column prop="tierName" label="档位名称" width="300"></el-table-column>
-          <el-table-column prop="minNetDeposit" label="最小净充值(USDT)" width="180" align="right"></el-table-column>
-          <el-table-column prop="maxNetDeposit" label="最大净充值(USDT)" width="180" align="right"></el-table-column>
-          <el-table-column prop="alertProfitRate" label="预警盈利率(%)" width="150" align="right">
-            <template slot-scope="scope">
-              {{ scope.row.alertProfitRate }}%
-            </template>
-          </el-table-column>
-          <el-table-column prop="status" label="状态" width="100">
-            <template slot-scope="scope">
-              <el-tag :type="scope.row.status === 1 ? 'success' : 'info'" size="small">
-                {{ scope.row.status === 1 ? '开启' : '关闭' }}
-              </el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" width="150" align="center">
-            <template slot-scope="scope">
-              <el-button size="mini" type="text" icon="el-icon-edit" @click="editTier(scope.row)">编辑</el-button>
-              <el-button size="mini" type="text" icon="el-icon-delete" style="color: #f56c6c;" @click="deleteTier(scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-
-        <!-- 分页 -->
-        <el-pagination
-          style="margin-top: 20px; text-align: right;"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="tierPage.current"
-          :page-sizes="[10, 20, 50, 100]"
-          :page-size="tierPage.size"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="tierPage.total">
-        </el-pagination>
       </div>
-
-      <!-- 新增/编辑档位对话框 -->
-      <el-dialog title="新增档位" :visible.sync="tierDialogVisible" width="600px">
-        <el-form :model="tierForm" label-width="150px" size="small">
-          <el-form-item label="所属群组" required>
-            <el-select v-model="tierForm.groupId" placeholder="请选择群组" style="width: 100%;">
-              <el-option label="小额净充值盈利预警群" value="1"></el-option>
-              <el-option label="中额净充值盈利预警群" value="2"></el-option>
-              <el-option label="大额净充值盈利预警群" value="3"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="档位名称">
-            <el-input :value="generatedTierName" disabled style="width: 100%;"></el-input>
-            <div style="color: #909399; font-size: 12px; margin-top: 5px;">
-              提示: 档位名称由系统自动生成
-            </div>
-          </el-form-item>
-          <el-form-item label="最小净充值(USDT)" required>
-            <el-input v-model.number="tierForm.minNetDeposit" type="number" placeholder="请输入最小净充值" style="width: 100%;"></el-input>
-            <div style="color: #909399; font-size: 12px; margin-top: 5px;">
-              提示: 大于等于该值。可以输入负数,如 -999999 表示无下限
-            </div>
-          </el-form-item>
-          <el-form-item label="最大净充值(USDT)" required>
-            <el-input v-model.number="tierForm.maxNetDeposit" type="number" placeholder="请输入最大净充值" style="width: 100%;"></el-input>
-            <div style="color: #909399; font-size: 12px; margin-top: 5px;">
-              提示: 小于该值(不包含该值)
-            </div>
-          </el-form-item>
-          <el-form-item label="预警盈利率(%)" required>
-            <el-input-number v-model="tierForm.alertProfitRate" :precision="2" :step="10" :min="0" style="width: 100%;"></el-input-number>
-            <div style="color: #909399; font-size: 12px; margin-top: 5px;">
-              提示: 净充值≤0的档位的净充值按 1 USDT 计算盈利率
-            </div>
-          </el-form-item>
-          <el-form-item label="状态" required>
-            <el-radio-group v-model="tierForm.status">
-              <el-radio :label="1">开启</el-radio>
-              <el-radio :label="0">关闭</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="tierDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="saveTier">确认</el-button>
-        </div>
-      </el-dialog>
-
-          </div>
-
-          <!-- ==================== 4.3 盈利率预警记录 ==================== -->
-          <div v-show="currentPage === 'record'">
-            <h1 class="page-title">盈利率预警记录</h1>
-      
-      <div class="app-container">
-        <!-- 工具栏 -->
-        <div class="head-container">
-          <div style="margin-bottom: 15px;">
-            <label class="el-form-item-label">用户UID</label>
-            <el-input v-model="recordQuery.uid" clearable placeholder="用户UID" style="width: 185px" class="filter-item"></el-input>
-
-            <label class="el-form-item-label">档位</label>
-            <el-select v-model="recordQuery.tierId" clearable placeholder="档位" style="width: 250px" class="filter-item">
-              <el-option label="小额 - 净充值1-50USDT" value="1"></el-option>
-              <el-option label="小额 - 净充值≤0" value="2"></el-option>
-              <el-option label="中额 - 净充值50-100USDT" value="3"></el-option>
-            </el-select>
-
-            <label class="el-form-item-label">报警时间</label>
-            <el-date-picker
-              v-model="recordQuery.dateRange"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              style="width: 350px"
-              class="filter-item">
-            </el-date-picker>
-          </div>
-
-          <div style="margin-bottom: 15px;">
-            <label class="el-form-item-label">盈利率范围(%)</label>
-            <el-input v-model="recordQuery.minProfitRate" clearable placeholder="最小盈利率" style="width: 140px" class="filter-item"></el-input>
-            <span style="margin: 0 5px;">-</span>
-            <el-input v-model="recordQuery.maxProfitRate" clearable placeholder="最大盈利率" style="width: 140px" class="filter-item"></el-input>
-
-            <label class="el-form-item-label" style="margin-left: 15px;">净充值范围(USDT)</label>
-            <el-input v-model="recordQuery.minNetDeposit" clearable placeholder="最小净充值" style="width: 140px" class="filter-item"></el-input>
-            <span style="margin: 0 5px;">-</span>
-            <el-input v-model="recordQuery.maxNetDeposit" clearable placeholder="最大净充值" style="width: 140px" class="filter-item"></el-input>
-
-            <el-button class="filter-item" size="mini" type="success" icon="el-icon-search" style="margin-left: 15px;">搜索</el-button>
-            <el-button class="filter-item" size="mini" type="warning" icon="el-icon-refresh-left">重置</el-button>
-            <el-button class="filter-item" size="mini" type="primary" icon="el-icon-download">导出</el-button>
-          </div>
-        </div>
-
-        <!-- 表格 -->
-        <el-table :data="recordTableData" size="small" style="width: 100%">
-          <el-table-column prop="uid" label="用户UID" width="120"></el-table-column>
-          <el-table-column prop="tierName" label="档位名称" width="250"></el-table-column>
-          <el-table-column prop="netDeposit" label="净充值(USDT)" width="140" align="right"></el-table-column>
-          <el-table-column prop="maxNetDeposit" label="历史最高净充值(USDT)" width="180" align="right"></el-table-column>
-          <el-table-column prop="totalAssets" label="总资产(USDT)" width="140" align="right"></el-table-column>
-          <el-table-column prop="totalProfit" label="累计盈利(USDT)" width="140" align="right"></el-table-column>
-          <el-table-column prop="profitRate" label="盈利率(%)" width="120" align="right">
-            <template slot-scope="scope">
-              {{ scope.row.profitRate }}%
-            </template>
-          </el-table-column>
-          <el-table-column prop="alertTime" label="报警时间" width="180"></el-table-column>
-        </el-table>
-
-        <!-- 分页 -->
-        <el-pagination
-          style="margin-top: 20px; text-align: right;"
-          @size-change="handleRecordSizeChange"
-          @current-change="handleRecordCurrentChange"
-          :current-page="recordPage.current"
-          :page-sizes="[10, 20, 50, 100]"
-          :page-size="recordPage.size"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="recordPage.total">
-        </el-pagination>
-      </div>
-
-          </div>
-
-        </div>
-      </div>
-
     </div>
+
+    <!-- 触发记录对话框 -->
+    <el-dialog title="触发记录详情" :visible.sync="recordDialogVisible" width="95%" top="3vh">
+      <div style="margin-bottom: 15px;">
+        <strong>档位：</strong>{{ currentTier ? currentTier.tierName : '' }}
+        <span style="margin-left: 20px;"><strong>触发次数：</strong>{{ currentTierRecords.length }} 次</span>
+        <span style="margin-left: 20px;"><strong>涉及用户：</strong>{{ uniqueUserCount }} 个</span>
+      </div>
+
+      <!-- 筛选区域 -->
+      <el-card shadow="never" style="margin-bottom: 15px; background-color: #fafafa;">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; align-items: end;">
+          <div>
+            <label style="display: block; margin-bottom: 5px; font-size: 13px; color: #606266;">用户UID</label>
+            <el-input v-model="filterForm.uid" placeholder="输入UID搜索" size="small" clearable></el-input>
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 5px; font-size: 13px; color: #606266;">盈利率范围(%)</label>
+            <div style="display: flex; gap: 5px; align-items: center;">
+              <el-input v-model.number="filterForm.minProfitRate" placeholder="最小" size="small" type="number" clearable></el-input>
+              <span>~</span>
+              <el-input v-model.number="filterForm.maxProfitRate" placeholder="最大" size="small" type="number" clearable></el-input>
+            </div>
+          </div>
+          <div>
+            <label style="display: block; margin-bottom: 5px; font-size: 13px; color: #606266;">时间范围</label>
+            <div style="display: flex; gap: 5px; align-items: center;">
+              <el-date-picker v-model="filterForm.startDate" type="date" placeholder="开始日期" size="small" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
+              <span>~</span>
+              <el-date-picker v-model="filterForm.endDate" type="date" placeholder="结束日期" size="small" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <el-button type="primary" size="small" icon="el-icon-search">搜索</el-button>
+            <el-button size="small" icon="el-icon-refresh" @click="resetFilter">重置</el-button>
+          </div>
+        </div>
+      </el-card>
+
+      <el-table :data="pagedRecords" size="small" style="width: 100%" max-height="450" border>
+        <el-table-column prop="uid" label="用户UID" min-width="100" sortable></el-table-column>
+        <el-table-column prop="netDeposit" label="净充值(USDT)" min-width="120" align="right" sortable>
+          <template slot-scope="scope">
+            {{ scope.row.netDeposit.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="maxNetDeposit" label="历史最高净充值(USDT)" min-width="160" align="right" sortable>
+          <template slot-scope="scope">
+            {{ scope.row.maxNetDeposit.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="totalAssets" label="总资产(USDT)" min-width="120" align="right" sortable>
+          <template slot-scope="scope">
+            {{ scope.row.totalAssets.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="totalProfit" label="累计盈利(USDT)" min-width="130" align="right" sortable>
+          <template slot-scope="scope">
+            {{ scope.row.totalProfit.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="profitRate" label="盈利率(%)" min-width="110" align="right" sortable>
+          <template slot-scope="scope">
+            {{ scope.row.profitRate.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}%
+          </template>
+        </el-table-column>
+        <el-table-column prop="alertTime" label="报警时间" min-width="150" sortable></el-table-column>
+      </el-table>
+
+      <!-- 分页 -->
+      <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 13px; color: #606266;">
+          共 {{ totalRecords }} 条记录，当前显示 {{ (currentPage - 1) * pageSize + 1 }}-{{ Math.min(currentPage * pageSize, totalRecords) }} 条
+        </div>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handlePageChange"
+          :current-page="currentPage"
+          :page-sizes="pageSizes"
+          :page-size="pageSize"
+          layout="sizes, prev, pager, next, jumper"
+          :total="totalRecords">
+        </el-pagination>
+      </div>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="recordDialogVisible = false">关闭</el-button>
+      </div>
+    </el-dialog>
 
     <!-- 产品文档标签页 -->
     <div class="tab-content" v-show="globalTab === 'prd'">
-      
+      <!-- 这里将插入完整的产品文档内容 -->
       <h1>产品需求文档(PRD)</h1>
       <h2>净充值盈利率预警系统</h2>
 
@@ -745,8 +1045,7 @@ if (净充值 <= 0) {
         <li>区间描述:</li>
       </ul>
       <p>- 最小 ≤ 0 且 最大 = 0: "净充值≤0"</p>
-      <p>- 最小 ≥ 0 且 最大 < 999999: "净充值{最小}-{最大}USDT"</p>
-      <p>- 最大 ≥ 999999: "净充值{最小}+USDT"</p>
+      <p>- 其他情况: "净充值{最小}-{最大}USDT"</p>
 
       <p><strong>配置说明</strong>:</p>
       <ul>
@@ -802,7 +1101,7 @@ if (净充值 <= 0) {
 
       <p><strong>消息格式(负净充值用户)</strong> ⚠️:</p>
       <pre>
-⚠️⚠️ 盈利率预警(异常盈利) ⚠️⚠️
+⚠️⚠️ 盈利率预警 ⚠️⚠️
 
 用户UID: 123456
 档位: 小额 - 净充值≤0
@@ -827,7 +1126,6 @@ if (净充值 <= 0) {
       <p><strong>查询条件</strong>:</p>
       <ul>
         <li>用户 UID</li>
-        <li>档位</li>
         <li>报警时间范围</li>
         <li>盈利率范围</li>
         <li>净充值范围</li>
@@ -836,7 +1134,6 @@ if (净充值 <= 0) {
       <p><strong>列表字段</strong>:</p>
       <ul>
         <li>用户 UID</li>
-        <li>档位名称</li>
         <li>净充值</li>
         <li>历史最高净充值</li>
         <li>总资产</li>
@@ -860,36 +1157,86 @@ if (净充值 <= 0) {
         <li><strong>删除</strong>: 删除群组(需确认,关联档位一并删除)</li>
       </ul>
 
-      <h4>4.2 档位管理</h4>
-      <ul>
-        <li><strong>配置位置</strong>: Admin 后台"通知管理 > 群通知"菜单下新增"盈利率预警档位配置"</li>
-        <li><strong>数据表</strong>: `profit_alert_tier` (盈利率预警档位表)</li>
-        <li><strong>列表页</strong>: 按群组分组展示档位,支持启用/禁用</li>
-        <li><strong>排序规则</strong>: 按最小净充值从小到大排序(负数在前,正数在后)</li>
-        <li><strong>新增/编辑</strong>: 配置净充值区间、预警盈利率</li>
-      </ul>
-      <p>- 支持配置负数的最小净充值(如 -999999 表示无下限)</p>
-      <p>- 示例: 最小净充值 = -999999, 最大净充值 = 0, 表示"净充值 ≤ 0"</p>
-      <ul>
-        <li><strong>删除</strong>: 删除档位(需确认)</li>
-        <li><strong>校验</strong>:</li>
-      </ul>
-      <p>- <strong>最小净充值必须 < 最大净充值</strong></p>
-      <p>- <strong>所有档位(包括不同群组)的净充值区间不能重叠</strong></p>
-      <p>- 重叠判断: <code>新档位最小值 < 已有档位最大值 && 已有档位最小值 < 新档位最大值</code></p>
-      <p>- 如果重叠,提示"该区间与其他区间重叠",拒绝保存</p>
+      <h4>4.2 盈利率预警配置与查询（统一页面）</h4>
 
-      <h4>4.3 盈利率预警记录查询</h4>
+      <p><strong>设计理念</strong>: 将档位配置和触发记录查询合并到同一个页面，提升操作效率。</p>
+
       <ul>
-        <li><strong>配置位置</strong>: Admin 后台"风控管理 > 盈利用户监控"菜单下</li>
-        <li><strong>数据表</strong>: `profit_alert_record` (盈利率预警记录表)</li>
-        <li><strong>列表页</strong>: 展示历史报警记录</li>
+        <li><strong>配置位置</strong>: Admin 后台"风控管理"菜单下新增"盈利率预警配置与查询"</li>
+        <li><strong>数据表</strong>:
+          <ul>
+            <li>`profit_alert_tier` (盈利率预警档位表)</li>
+            <li>`profit_alert_record` (盈利率预警记录表)</li>
+          </ul>
+        </li>
       </ul>
-      <p></p>
+
+      <p><strong>页面布局</strong>:</p>
       <ul>
-        <li><strong>筛选</strong>: 支持按用户、档位、时间、净充值范围筛选</li>
-        <li><strong>导出</strong>: </li>
-        <li><strong>详情</strong>: 点击记录可查看完整的财务数据快照</li>
+        <li><strong>三个群组卡片</strong>: 小额、中额、大额群组分别展示</li>
+        <li><strong>档位列表</strong>: 每个群组下显示所有档位，按最小净充值从小到大排序</li>
+        <li><strong>档位信息</strong>: 显示净充值区间、预警盈利率、触发次数、涉及用户数</li>
+        <li><strong>内联编辑</strong>: 点击"编辑"后，档位信息直接切换为编辑表单，无需弹窗</li>
+        <li><strong>触发记录</strong>: 点击"查看触发记录"打开对话框，显示该档位的详细触发记录</li>
+      </ul>
+
+      <p><strong>档位管理功能</strong>:</p>
+      <ul>
+        <li><strong>新增档位</strong>: 点击"➕ 新增档位"按钮，在下方展开表单
+          <ul>
+            <li>配置项: 最小净充值（≥）、最大净充值（<）、预警盈利率（%）、状态</li>
+            <li>支持配置负数的最小净充值（如 -999999 表示无下限）</li>
+            <li>示例: 最小净充值 = -999999, 最大净充值 = 0, 表示"净充值 ≤ 0"</li>
+          </ul>
+        </li>
+        <li><strong>编辑档位</strong>: 点击"编辑"按钮，档位信息切换为编辑表单
+          <ul>
+            <li>可修改净充值区间、预警盈利率、状态</li>
+            <li>保存后自动更新档位名称</li>
+          </ul>
+        </li>
+        <li><strong>删除档位</strong>: 点击"删除"按钮，弹出确认对话框</li>
+        <li><strong>校验规则</strong>:
+          <ul>
+            <li>最小净充值必须 < 最大净充值</li>
+            <li>所有档位（包括不同群组）的净充值区间不能重叠</li>
+            <li>重叠判断: <code>新档位最小值 < 已有档位最大值 && 已有档位最小值 < 新档位最大值</code></li>
+            <li>如果重叠，提示"该区间与其他区间重叠"，拒绝保存</li>
+          </ul>
+        </li>
+      </ul>
+
+      <p><strong>触发记录查询功能</strong>:</p>
+      <ul>
+        <li><strong>入口</strong>: 点击档位的"查看触发记录"按钮</li>
+        <li><strong>对话框</strong>: 95% 宽度，顶部距离 3vh</li>
+        <li><strong>档位信息</strong>: 对话框顶部显示档位名称、触发次数、涉及用户数</li>
+        <li><strong>筛选功能</strong>:
+          <ul>
+            <li>用户 UID（模糊搜索）</li>
+            <li>盈利率范围（最小值~最大值）</li>
+            <li>时间范围（开始日期~结束日期）</li>
+            <li>搜索/重置按钮</li>
+          </ul>
+        </li>
+        <li><strong>列表字段</strong>:
+          <ul>
+            <li>用户 UID</li>
+            <li>净充值（USDT）</li>
+            <li>历史最高净充值（USDT）</li>
+            <li>总资产（USDT）</li>
+            <li>累计盈利（USDT）</li>
+            <li>盈利率（%）</li>
+            <li>报警时间</li>
+          </ul>
+        </li>
+        <li><strong>表格功能</strong>:
+          <ul>
+            <li>所有列支持点击排序</li>
+            <li>数字格式化（千位分隔符）</li>
+            <li>分页功能（10/20/50/100 条/页）</li>
+          </ul>
+        </li>
       </ul>
 
       <hr>
@@ -925,91 +1272,14 @@ if (净充值 <= 0) {
         <li><strong>禁用状态的群组或档位</strong>: 不触发报警</li>
       </ul>
 
-      <hr>
 
-      <h3>六、验收标准</h3>
-
-      <h4>6.1 功能验收</h4>
-      <ul>
-        <li>☐ Admin 后台可正常配置群组和档位(包括负数净充值档位)</li>
-        <li>☐ 用户平仓/卖出后,系统能正确计算盈利率</li>
-        <li>☐ 净充值 > 0 的用户,盈利率计算正确</li>
-        <li>☐ 净充值 ≤ 0 的用户,盈利率按 1 USDT 计算</li>
-        <li>☐ 总资产 ≤ 0 的用户不触发预警</li>
-        <li>☐ 达到阈值时,Telegram 群组能收到通知</li>
-        <li>☐ 负净充值用户的通知有特殊标记</li>
-        <li>☐ 同一用户同一档位不会重复报警</li>
-        <li>☐ 报警记录可在 Admin 后台查询</li>
-      </ul>
-
-      <h4>6.2 数据验收</h4>
-      <ul>
-        <li>☐ 净充值计算准确(与财务统计一致)</li>
-        <li>☐ 总资产计算准确(包含所有钱包和未实现盈亏)</li>
-        <li>☐ 盈利率计算准确(边界情况处理正确)</li>
-        <li>☐ 负净充值用户的盈利率计算符合预期</li>
-      </ul>
-
-      <h4>6.3 边界测试用例</h4>
-      <pre>
-测试用例1: 净充值为0
-- 总充值: 100, 总提现: 100, 净充值: 0
-- 总资产: 50
-- 预期盈利率: 5000% (50/1×100%)
-
-测试用例2: 净充值为负数
-- 总充值: 100, 总提现: 200, 净充值: -100
-- 总资产: 80
-- 预期盈利率: 18000% (180/1×100%)
-
-测试用例4: 正常用户
-- 总充值: 100, 总提现: 0, 净充值: 100
-- 总资产: 500
-- 预期盈利率: 400% (400/100×100%)
-</pre>
-
-      <hr>
-
-      <h3>七、关键决策记录</h3>
-
-      <table>
-        <tr>
-          <th>决策点</th>
-          <th>方案</th>
-          <th>理由</th>
-        </tr>
-        <tr>
-          <td>净充值 ≤ 0 如何计算盈利率</td>
-          <td>按 1 USDT 计算</td>
-          <td>识别"本金提走仍盈利"的异常用户</td>
-        </tr>
-        <tr>
-          <td>盈利率虚高是否正常</td>
-          <td>正常,这是预期行为</td>
-          <td>通过高阈值过滤,只抓最异常的</td>
-        </tr>
-        <tr>
-          <td>负净充值用户归入哪个群组</td>
-          <td>小额群组</td>
-          <td>简化设计,符合"三个群"需求</td>
-        </tr>
-        <tr>
-          <td>触发时机</td>
-          <td>合约平仓/现货卖出</td>
-          <td>参考现有"下单预警"功能</td>
-        </tr>
-      </table>
-
-      <hr>
-
-
-
-    
     </div>
 
     <!-- 前端规范标签页 -->
     <div class="tab-content" v-show="globalTab === 'frontend'">
+      <!-- 这里将插入完整的前端规范内容 -->
       <h1>前端开发规范</h1>
+
 
       <h2>一、档位名称自动生成规则</h2>
       <h3>1. 生成逻辑</h3>
@@ -1026,40 +1296,33 @@ if (净充值 <= 0) {
       <pre>// 如果最小净充值 <= 0 且 最大净充值 = 0
 区间描述 = "净充值≤0"
 
-// 如果最大净充值 >= 999999
-区间描述 = "净充值{最小值}+USDT"
-
 // 其他情况
 区间描述 = "净充值{最小值}-{最大值}USDT"</pre>
 
+      <p><strong>说明</strong>: 档位名称直接显示配置的最小值和最大值，不做任何简化处理。</p>
+
       <h3>4. 示例</h3>
       <ul>
-        <li>群组=小额, 区间=[-999999, 0) → "小额 - 净充值≤0"</li>
-        <li>群组=小额, 区间=[0, 50) → "小额 - 净充值0-50USDT"</li>
-        <li>群组=中额, 区间=[50, 100) → "中额 - 净充值50-100USDT"</li>
-        <li>群组=大额, 区间=[500, 999999) → "大额 - 净充值500+USDT"</li>
+        <li>最小=-999999, 最大=0 → "小额 - 净充值≤0"</li>
+        <li>最小=0, 最大=50 → "小额 - 净充值0-50USDT"</li>
+        <li>最小=50, 最大=100 → "中额 - 净充值50-100USDT"</li>
+        <li>最小=200, 最大=500 → "大额 - 净充值200-500USDT"</li>
+        <li>最小=500, 最大=999999 → "大额 - 净充值500-999999USDT"</li>
       </ul>
 
       <h3>5. 实现代码</h3>
-      <pre>computed: {
-  generatedTierName() {
-    const groupMap = { '1': '小额', '2': '中额', '3': '大额' };
-    const groupName = groupMap[this.form.groupId];
-    const min = this.form.minNetDeposit;
-    const max = this.form.maxNetDeposit;
+      <pre>// 在新增或编辑档位时生成名称
+const groupMap = { '1': '小额', '2': '中额', '3': '大额' };
+const groupName = groupMap[groupId];
+let rangeDesc = '';
 
-    let range = '';
-    if (min <= 0 && max === 0) {
-      range = '净充值≤0';
-    } else if (max >= 999999) {
-      range = `净充值${min}+USDT`;
-    } else {
-      range = `净充值${min}-${max}USDT`;
-    }
+if (this.newTierForm.minNetDeposit <= 0 && this.newTierForm.maxNetDeposit === 0) {
+  rangeDesc = '净充值≤0';
+} else {
+  rangeDesc = `净充值${this.newTierForm.minNetDeposit}-${this.newTierForm.maxNetDeposit}USDT`;
+}
 
-    return `${groupName} - ${range}`;
-  }
-}</pre>
+const tierName = `${groupName} - ${rangeDesc}`;</pre>
 
       <h2>二、区间重叠校验规则</h2>
       <h3>1. 校验时机</h3>
@@ -1073,20 +1336,31 @@ if (净充值 <= 0) {
 min1 < max2 && min2 < max1</pre>
 
       <h3>4. 校验逻辑</h3>
-      <pre>// 遍历所有已有档位
-for (let tier of existingTiers) {
-  // 跳过当前编辑的档位本身
-  if (tier.id === currentTier.id) continue;
+      <pre>// 新增档位时的重叠校验
+const overlapTier = this.tiers.find(tier => {
+  // 跳过当前群组（新增时不需要跳过）
+  return this.newTierForm.minNetDeposit < tier.maxNetDeposit &&
+         tier.minNetDeposit < this.newTierForm.maxNetDeposit;
+});
 
-  // 判断是否重叠
-  if (currentTier.minNetDeposit < tier.maxNetDeposit &&
-      tier.minNetDeposit < currentTier.maxNetDeposit) {
-    // 重叠,提示错误
-    this.$message.error('该区间与其他区间重叠');
-    return false;
-  }
+if (overlapTier) {
+  this.$message.error('该区间与其他区间重叠');
+  return;
 }
-return true;</pre>
+
+// 编辑档位时的重叠校验
+const overlapTier = this.tiers.find(tier => {
+  // 跳过当前编辑的档位本身
+  if (tier.id === this.editingTierId) return false;
+
+  return this.newTierForm.minNetDeposit < tier.maxNetDeposit &&
+         tier.minNetDeposit < this.newTierForm.maxNetDeposit;
+});
+
+if (overlapTier) {
+  this.$message.error('该区间与其他区间重叠');
+  return;
+}</pre>
 
       <h3>5. 错误提示</h3>
       <p>统一使用: <strong>"该区间与其他区间重叠"</strong></p>
@@ -1131,58 +1405,140 @@ return true;</pre>
 
       <h3>2. 数值校验</h3>
       <pre>// 最小净充值必须小于最大净充值
-if (this.form.minNetDeposit >= this.form.maxNetDeposit) {
+if (this.newTierForm.minNetDeposit >= this.newTierForm.maxNetDeposit) {
   this.$message.error('最小净充值必须小于最大净充值');
-  return false;
+  return;
 }</pre>
 
-      <h3>3. 完整校验流程</h3>
-      <pre>saveTier() {
+      <h3>3. 完整校验流程（新增档位）</h3>
+      <pre>saveNewTier(groupId) {
   // 1. 必填项校验
-  if (!this.form.groupId) {
-    this.$message.error('请选择所属群组');
-    return;
-  }
-  if (this.form.minNetDeposit === null || this.form.minNetDeposit === '') {
+  if (this.newTierForm.minNetDeposit === null || this.newTierForm.minNetDeposit === '') {
     this.$message.error('请填写最小净充值');
     return;
   }
-  if (this.form.maxNetDeposit === null || this.form.maxNetDeposit === '') {
+  if (this.newTierForm.maxNetDeposit === null || this.newTierForm.maxNetDeposit === '') {
     this.$message.error('请填写最大净充值');
     return;
   }
-  if (!this.form.alertProfitRate || this.form.alertProfitRate <= 0) {
+  if (!this.newTierForm.alertProfitRate || this.newTierForm.alertProfitRate <= 0) {
     this.$message.error('请填写预警盈利率');
     return;
   }
 
   // 2. 数值校验
-  if (this.form.minNetDeposit >= this.form.maxNetDeposit) {
+  if (this.newTierForm.minNetDeposit >= this.newTierForm.maxNetDeposit) {
     this.$message.error('最小净充值必须小于最大净充值');
     return;
   }
 
   // 3. 区间重叠校验
-  const isOverlap = this.tableData.some(tier => {
-    if (tier.id === this.form.id) return false;
-    return this.form.minNetDeposit < tier.maxNetDeposit &&
-           tier.minNetDeposit < this.form.maxNetDeposit;
+  const overlapTier = this.tiers.find(tier => {
+    return this.newTierForm.minNetDeposit < tier.maxNetDeposit &&
+           tier.minNetDeposit < this.newTierForm.maxNetDeposit;
   });
 
-  if (isOverlap) {
+  if (overlapTier) {
     this.$message.error('该区间与其他区间重叠');
     return;
   }
 
-  // 4. 保存
-  this.$message.success('保存成功');
-  this.dialogVisible = false;
+  // 4. 生成档位名称并保存
+  const groupMap = { '1': '小额', '2': '中额', '3': '大额' };
+  const groupName = groupMap[groupId];
+  let rangeDesc = '';
+  if (this.newTierForm.minNetDeposit <= 0 && this.newTierForm.maxNetDeposit === 0) {
+    rangeDesc = '净充值≤0';
+  } else {
+    rangeDesc = `净充值${this.newTierForm.minNetDeposit}-${this.newTierForm.maxNetDeposit}USDT`;
+  }
+  const tierName = `${groupName} - ${rangeDesc}`;
+
+  // 添加到档位列表
+  const newTier = {
+    id: Math.max(...this.tiers.map(t => t.id), 0) + 1,
+    groupId: groupId,
+    tierName: tierName,
+    minNetDeposit: this.newTierForm.minNetDeposit,
+    maxNetDeposit: this.newTierForm.maxNetDeposit,
+    alertProfitRate: this.newTierForm.alertProfitRate,
+    status: this.newTierForm.status,
+    triggerCount: 0,
+    userCount: 0
+  };
+
+  this.tiers.push(newTier);
+  this.$message.success('档位添加成功');
+
+  // 关闭新增表单
+  this.addingGroupId = null;
+  this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, alertProfitRate: null, status: 1 };
+}</pre>
+
+      <h3>4. 完整校验流程（编辑档位）</h3>
+      <pre>saveEdit() {
+  // 1. 必填项校验
+  if (this.newTierForm.minNetDeposit === null || this.newTierForm.minNetDeposit === '') {
+    this.$message.error('请填写最小净充值');
+    return;
+  }
+  if (this.newTierForm.maxNetDeposit === null || this.newTierForm.maxNetDeposit === '') {
+    this.$message.error('请填写最大净充值');
+    return;
+  }
+  if (!this.newTierForm.alertProfitRate || this.newTierForm.alertProfitRate <= 0) {
+    this.$message.error('请填写预警盈利率');
+    return;
+  }
+
+  // 2. 数值校验
+  if (this.newTierForm.minNetDeposit >= this.newTierForm.maxNetDeposit) {
+    this.$message.error('最小净充值必须小于最大净充值');
+    return;
+  }
+
+  // 3. 区间重叠校验（跳过当前编辑的档位）
+  const overlapTier = this.tiers.find(tier => {
+    if (tier.id === this.editingTierId) return false;
+    return this.newTierForm.minNetDeposit < tier.maxNetDeposit &&
+           tier.minNetDeposit < this.newTierForm.maxNetDeposit;
+  });
+
+  if (overlapTier) {
+    this.$message.error('该区间与其他区间重叠');
+    return;
+  }
+
+  // 4. 更新档位信息
+  const tier = this.tiers.find(t => t.id === this.editingTierId);
+  const groupMap = { '1': '小额', '2': '中额', '3': '大额' };
+  const groupName = groupMap[tier.groupId];
+  let rangeDesc = '';
+  if (this.newTierForm.minNetDeposit <= 0 && this.newTierForm.maxNetDeposit === 0) {
+    rangeDesc = '净充值≤0';
+  } else {
+    rangeDesc = `净充值${this.newTierForm.minNetDeposit}-${this.newTierForm.maxNetDeposit}USDT`;
+  }
+  const tierName = `${groupName} - ${rangeDesc}`;
+
+  tier.tierName = tierName;
+  tier.minNetDeposit = this.newTierForm.minNetDeposit;
+  tier.maxNetDeposit = this.newTierForm.maxNetDeposit;
+  tier.alertProfitRate = this.newTierForm.alertProfitRate;
+  tier.status = this.newTierForm.status;
+
+  this.$message.success('档位更新成功');
+
+  // 退出编辑模式
+  this.editingTierId = null;
+  this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, alertProfitRate: null, status: 1 };
 }</pre>
 
     </div>
 
     <!-- 群通知模板标签页 -->
     <div class="tab-content" v-show="globalTab === 'template'">
+      <!-- 这里将插入完整的群通知模板内容 -->
       <h1>Telegram 通知内容</h1>
 
       <h2>消息格式(正常用户)</h2>
@@ -1204,7 +1560,7 @@ if (this.form.minNetDeposit >= this.form.maxNetDeposit) {
 请及时关注该用户交易行为</pre>
 
       <h2>消息格式(负净充值用户) ⚠️</h2>
-      <pre>⚠️⚠️ 盈利率预警(异常盈利) ⚠️⚠️
+      <pre>⚠️⚠️ 盈利率预警 ⚠️⚠️
 
 用户UID: 123456
 档位: 小额 - 净充值≤0
@@ -1219,7 +1575,7 @@ if (this.form.minNetDeposit >= this.form.maxNetDeposit) {
 触发时间: 2025-01-16 14:30:25
 
 ---
-⚠️ 该用户本金已提走,仍在持续盈利,请重点关注!</pre>
+请及时关注该用户交易行为</pre>
     </div>
 
   </div>
@@ -1231,181 +1587,154 @@ if (this.form.minNetDeposit >= this.form.maxNetDeposit) {
     new Vue({
       el: '#app',
       data: {
-        // 全局标签页
-        globalTab: 'prototype', // 'prototype', 'prd', 'frontend', 'template'
-
-        // 当前页面
-        currentPage: 'tier', // 'tier' 或 'record'
-
-        // 菜单展开状态
+        globalTab: 'prototype',
         menuOpen: {
-          notify: true,
-          risk: false
+          notify: true
         },
-
-
-
-        // 档位管理
-        tierQuery: {
-          groupId: '',
-          status: ''
-        },
-        tierTableData: [
-          { id: 1, groupName: '小额净充值盈利预警群', tierName: '净充值≤0,盈利率5000%', minNetDeposit: -999999, maxNetDeposit: 0, alertProfitRate: 5000, status: 1 },
-          { id: 2, groupName: '小额净充值盈利预警群', tierName: '净充值0-50USDT,盈利率500%', minNetDeposit: 0, maxNetDeposit: 50, alertProfitRate: 500, status: 1 },
-          { id: 3, groupName: '中额净充值盈利预警群', tierName: '净充值50-100USDT,盈利率450%', minNetDeposit: 50, maxNetDeposit: 100, alertProfitRate: 450, status: 1 },
-          { id: 4, groupName: '中额净充值盈利预警群', tierName: '净充值100-200USDT,盈利率400%', minNetDeposit: 100, maxNetDeposit: 200, alertProfitRate: 400, status: 1 },
-          { id: 5, groupName: '大额净充值盈利预警群', tierName: '净充值200-500USDT,盈利率350%', minNetDeposit: 200, maxNetDeposit: 500, alertProfitRate: 350, status: 1 },
-          { id: 6, groupName: '大额净充值盈利预警群', tierName: '净充值500+USDT,盈利率300%', minNetDeposit: 500, maxNetDeposit: 999999, alertProfitRate: 300, status: 1 },
-        ],
-        tierPage: {
-          current: 1,
-          size: 10,
-          total: 6
-        },
-        tierDialogVisible: false,
-        tierForm: {
-          groupId: '',
+        addingGroupId: null,
+        editingTierId: null,
+        newTierForm: {
           minNetDeposit: null,
           maxNetDeposit: null,
-          alertProfitRate: 0,
+          alertProfitRate: null,
           status: 1
         },
-        
-        // 预警记录
-        recordQuery: {
+        recordDialogVisible: false,
+        currentTier: null,
+        // 筛选条件
+        filterForm: {
           uid: '',
-          tierId: '',
-          dateRange: null,
-          minProfitRate: '',
-          maxProfitRate: '',
-          minNetDeposit: '',
-          maxNetDeposit: ''
+          minProfitRate: null,
+          maxProfitRate: null,
+          startDate: '',
+          endDate: ''
         },
-        recordTableData: [
-          { id: 1, uid: '123456', tierName: '小额 - 净充值≤0', netDeposit: -450.00, maxNetDeposit: 500.00, totalAssets: 75.00, totalProfit: 525.00, profitRate: 52500, alertTime: '2025-01-16 14:30:25' },
-          { id: 2, uid: '789012', tierName: '小额 - 净充值1-50USDT', netDeposit: 45.50, maxNetDeposit: 45.50, totalAssets: 273.00, totalProfit: 227.50, profitRate: 500.00, alertTime: '2025-01-16 13:15:10' },
-          { id: 3, uid: '345678', tierName: '中额 - 净充值50-100USDT', netDeposit: 80.00, maxNetDeposit: 120.00, totalAssets: 440.00, totalProfit: 360.00, profitRate: 450.00, alertTime: '2025-01-16 12:05:33' },
-          { id: 4, uid: '901234', tierName: '大额 - 净充值200-500USDT', netDeposit: 300.00, maxNetDeposit: 300.00, totalAssets: 1350.00, totalProfit: 1050.00, profitRate: 350.00, alertTime: '2025-01-16 11:20:45' },
+        // 分页
+        currentPage: 1,
+        pageSize: 20,
+        pageSizes: [10, 20, 50, 100],
+        allTriggerRecords: [
+          // 小额 - 净充值≤0 的触发记录
+          { id: 1, tierId: 1, uid: '123456', tierName: '小额 - 净充值≤0', netDeposit: -450.00, maxNetDeposit: 500.00, totalAssets: 75.00, totalProfit: 525.00, profitRate: 52500, alertTime: '2025-01-16 14:30:25' },
+          { id: 2, tierId: 1, uid: '789012', tierName: '小额 - 净充值≤0', netDeposit: -200.00, maxNetDeposit: 300.00, totalAssets: 50.00, totalProfit: 250.00, profitRate: 25000, alertTime: '2025-01-16 13:20:15' },
+          { id: 3, tierId: 1, uid: '345678', tierName: '小额 - 净充值≤0', netDeposit: -100.00, maxNetDeposit: 200.00, totalAssets: 80.00, totalProfit: 180.00, profitRate: 18000, alertTime: '2025-01-15 16:45:30' },
+          // 小额 - 净充值0-50USDT 的触发记录
+          { id: 4, tierId: 2, uid: '111111', tierName: '小额 - 净充值0-50USDT', netDeposit: 45.50, maxNetDeposit: 45.50, totalAssets: 273.00, totalProfit: 227.50, profitRate: 500.00, alertTime: '2025-01-16 13:15:10' },
+          { id: 5, tierId: 2, uid: '222222', tierName: '小额 - 净充值0-50USDT', netDeposit: 30.00, maxNetDeposit: 50.00, totalAssets: 180.00, totalProfit: 150.00, profitRate: 500.00, alertTime: '2025-01-16 12:30:45' },
+          { id: 6, tierId: 2, uid: '333333', tierName: '小额 - 净充值0-50USDT', netDeposit: 25.00, maxNetDeposit: 40.00, totalAssets: 150.00, totalProfit: 125.00, profitRate: 500.00, alertTime: '2025-01-15 18:20:30' },
+          // 中额 - 净充值50-100USDT 的触发记录
+          { id: 7, tierId: 3, uid: '121212', tierName: '中额 - 净充值50-100USDT', netDeposit: 80.00, maxNetDeposit: 120.00, totalAssets: 440.00, totalProfit: 360.00, profitRate: 450.00, alertTime: '2025-01-16 12:05:33' },
+          { id: 8, tierId: 3, uid: '131313', tierName: '中额 - 净充值50-100USDT', netDeposit: 75.00, maxNetDeposit: 100.00, totalAssets: 412.50, totalProfit: 337.50, profitRate: 450.00, alertTime: '2025-01-15 15:30:20' },
+          // 中额 - 净充值100-200USDT 的触发记录
+          { id: 9, tierId: 4, uid: '212121', tierName: '中额 - 净充值100-200USDT', netDeposit: 150.00, maxNetDeposit: 150.00, totalAssets: 750.00, totalProfit: 600.00, profitRate: 400.00, alertTime: '2025-01-16 10:15:45' },
+          { id: 10, tierId: 4, uid: '222222', tierName: '中额 - 净充值100-200USDT', netDeposit: 120.00, maxNetDeposit: 180.00, totalAssets: 600.00, totalProfit: 480.00, profitRate: 400.00, alertTime: '2025-01-15 14:20:10' },
+          // 大额 - 净充值200-500USDT 的触发记录
+          { id: 11, tierId: 5, uid: '313131', tierName: '大额 - 净充值200-500USDT', netDeposit: 300.00, maxNetDeposit: 300.00, totalAssets: 1350.00, totalProfit: 1050.00, profitRate: 350.00, alertTime: '2025-01-16 11:20:45' },
+          { id: 12, tierId: 5, uid: '323232', tierName: '大额 - 净充值200-500USDT', netDeposit: 250.00, maxNetDeposit: 400.00, totalAssets: 1125.00, totalProfit: 875.00, profitRate: 350.00, alertTime: '2025-01-15 13:45:20' },
+          // 大额 - 净充值500+USDT 的触发记录
+          { id: 13, tierId: 6, uid: '414141', tierName: '大额 - 净充值500+USDT', netDeposit: 800.00, maxNetDeposit: 800.00, totalAssets: 3200.00, totalProfit: 2400.00, profitRate: 300.00, alertTime: '2025-01-16 09:30:15' },
+          { id: 14, tierId: 6, uid: '424242', tierName: '大额 - 净充值500+USDT', netDeposit: 600.00, maxNetDeposit: 1000.00, totalAssets: 2400.00, totalProfit: 1800.00, profitRate: 300.00, alertTime: '2025-01-15 11:15:30' }
         ],
-        recordPage: {
-          current: 1,
-          size: 10,
-          total: 4
-        }
+        tiers: [
+          { id: 1, groupId: '1', groupName: '小额净充值盈利预警群', tierName: '小额 - 净充值≤0', minNetDeposit: -999999, maxNetDeposit: 0, alertProfitRate: 5000, status: 1, createdAt: '2025-01-10', triggerCount: 12, userCount: 8, triggerUsers: ['123456', '789012', '345678', '901234', '567890', '234567', '890123', '456789'] },
+          { id: 2, groupId: '1', groupName: '小额净充值盈利预警群', tierName: '小额 - 净充值0-50USDT', minNetDeposit: 0, maxNetDeposit: 50, alertProfitRate: 500, status: 1, createdAt: '2025-01-10', triggerCount: 45, userCount: 23, triggerUsers: ['111111', '222222', '333333', '444444', '555555', '666666', '777777', '888888', '999999', '101010'] },
+          { id: 3, groupId: '2', groupName: '中额净充值盈利预警群', tierName: '中额 - 净充值50-100USDT', minNetDeposit: 50, maxNetDeposit: 100, alertProfitRate: 450, status: 1, createdAt: '2025-01-11', triggerCount: 28, userCount: 15, triggerUsers: ['121212', '131313', '141414', '151515', '161616', '171717', '181818', '191919', '202020'] },
+          { id: 4, groupId: '2', groupName: '中额净充值盈利预警群', tierName: '中额 - 净充值100-200USDT', minNetDeposit: 100, maxNetDeposit: 200, alertProfitRate: 400, status: 1, createdAt: '2025-01-11', triggerCount: 18, userCount: 10, triggerUsers: ['212121', '222222', '232323', '242424', '252525'] },
+          { id: 5, groupId: '3', groupName: '大额净充值盈利预警群', tierName: '大额 - 净充值200-500USDT', minNetDeposit: 200, maxNetDeposit: 500, alertProfitRate: 350, status: 1, createdAt: '2025-01-12', triggerCount: 15, userCount: 9, triggerUsers: ['313131', '323232', '333333', '343434', '353535'] },
+          { id: 6, groupId: '3', groupName: '大额净充值盈利预警群', tierName: '大额 - 净充值500-999999USDT', minNetDeposit: 500, maxNetDeposit: 999999, alertProfitRate: 300, status: 1, createdAt: '2025-01-12', triggerCount: 8, userCount: 5, triggerUsers: ['414141', '424242', '434343'] }
+        ]
       },
       computed: {
-        // 按最小净充值从小到大排序
-        sortedTierTableData() {
-          return [...this.tierTableData].sort((a, b) => a.minNetDeposit - b.minNetDeposit);
+        smallTiers() {
+          return this.tiers.filter(t => t.groupId === '1').sort((a, b) => a.minNetDeposit - b.minNetDeposit);
         },
+        mediumTiers() {
+          return this.tiers.filter(t => t.groupId === '2').sort((a, b) => a.minNetDeposit - b.minNetDeposit);
+        },
+        largeTiers() {
+          return this.tiers.filter(t => t.groupId === '3').sort((a, b) => a.minNetDeposit - b.minNetDeposit);
+        },
+        currentTierRecords() {
+          if (!this.currentTier) return [];
+          return this.allTriggerRecords.filter(r => r.tierId === this.currentTier.id);
+        },
+        // 筛选后的记录
+        filteredRecords() {
+          let records = this.currentTierRecords;
 
-        // 自动生成档位名称
-        generatedTierName() {
-          if (!this.tierForm.groupId || this.tierForm.minNetDeposit === null || this.tierForm.maxNetDeposit === null) {
-            return '请先选择群组并填写净充值区间';
+          // UID 筛选
+          if (this.filterForm.uid) {
+            records = records.filter(r => r.uid.includes(this.filterForm.uid));
           }
 
-          // 群组简称映射
-          const groupNameMap = {
-            '1': '小额',
-            '2': '中额',
-            '3': '大额'
-          };
-
-          const groupShortName = groupNameMap[this.tierForm.groupId] || '';
-          const min = this.tierForm.minNetDeposit;
-          const max = this.tierForm.maxNetDeposit;
-
-          let rangeDesc = '';
-          if (min <= 0 && max === 0) {
-            rangeDesc = '净充值≤0';
-          } else if (max >= 999999) {
-            rangeDesc = `净充值${min}+USDT`;
-          } else {
-            rangeDesc = `净充值${min}-${max}USDT`;
+          // 盈利率范围筛选
+          if (this.filterForm.minProfitRate !== null && this.filterForm.minProfitRate !== '') {
+            records = records.filter(r => r.profitRate >= this.filterForm.minProfitRate);
+          }
+          if (this.filterForm.maxProfitRate !== null && this.filterForm.maxProfitRate !== '') {
+            records = records.filter(r => r.profitRate <= this.filterForm.maxProfitRate);
           }
 
-          return `${groupShortName} - ${rangeDesc}`;
+          // 时间范围筛选
+          if (this.filterForm.startDate) {
+            records = records.filter(r => r.alertTime >= this.filterForm.startDate);
+          }
+          if (this.filterForm.endDate) {
+            records = records.filter(r => r.alertTime <= this.filterForm.endDate + ' 23:59:59');
+          }
+
+          return records;
+        },
+        // 分页后的记录
+        pagedRecords() {
+          const start = (this.currentPage - 1) * this.pageSize;
+          const end = start + this.pageSize;
+          return this.filteredRecords.slice(start, end);
+        },
+        uniqueUserCount() {
+          if (!this.currentTierRecords.length) return 0;
+          const uniqueUsers = new Set(this.currentTierRecords.map(r => r.uid));
+          return uniqueUsers.size;
+        },
+        totalRecords() {
+          return this.filteredRecords.length;
         }
       },
       methods: {
-        // 切换菜单展开/收起
         toggleMenu(menuName) {
           this.menuOpen[menuName] = !this.menuOpen[menuName];
         },
-
-        handleSizeChange(val) {
-          this.tierPage.size = val;
+        startAddTier(groupId) {
+          this.addingGroupId = groupId;
+          this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, alertProfitRate: null, status: 1 };
         },
-        handleCurrentChange(val) {
-          this.tierPage.current = val;
+        cancelAddTier() {
+          this.addingGroupId = null;
+          this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, alertProfitRate: null, status: 1 };
         },
-        handleRecordSizeChange(val) {
-          this.recordPage.size = val;
-        },
-        handleRecordCurrentChange(val) {
-          this.recordPage.current = val;
-        },
-        openTierDialog() {
-          this.tierForm = {
-            groupId: '',
-            minNetDeposit: null,
-            maxNetDeposit: null,
-            alertProfitRate: 0,
-            status: 1
-          };
-          this.tierDialogVisible = true;
-        },
-        editTier(row) {
-          this.tierForm = { ...row };
-          this.tierDialogVisible = true;
-        },
-        deleteTier(row) {
-          this.$confirm('确定要删除该档位吗?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            this.$message.success('删除成功!');
-          }).catch(() => {
-            this.$message.info('已取消删除');
-          });
-        },
-
-        saveTier() {
-          // 校验必填项
-          if (!this.tierForm.groupId) {
-            this.$message.error('请选择所属群组');
-            return;
-          }
-          if (this.tierForm.minNetDeposit === null || this.tierForm.minNetDeposit === '') {
+        saveNewTier(groupId) {
+          // 校验
+          if (this.newTierForm.minNetDeposit === null || this.newTierForm.minNetDeposit === '') {
             this.$message.error('请填写最小净充值');
             return;
           }
-          if (this.tierForm.maxNetDeposit === null || this.tierForm.maxNetDeposit === '') {
+          if (this.newTierForm.maxNetDeposit === null || this.newTierForm.maxNetDeposit === '') {
             this.$message.error('请填写最大净充值');
             return;
           }
-          if (!this.tierForm.alertProfitRate) {
+          if (!this.newTierForm.alertProfitRate) {
             this.$message.error('请填写预警盈利率');
             return;
           }
-
-          // 校验最小值必须小于最大值
-          if (this.tierForm.minNetDeposit >= this.tierForm.maxNetDeposit) {
-            this.$message.error('最小净充值必须小于最大净充值!');
+          if (this.newTierForm.minNetDeposit >= this.newTierForm.maxNetDeposit) {
+            this.$message.error('最小净充值必须小于最大净充值');
             return;
           }
 
-          // 校验区间是否与已有档位重叠(包括不同群组)
-          const overlapTier = this.tierTableData.find(tier => {
-            // 编辑时排除自己
-            if (tier.id === this.tierForm.id) return false;
-
-            // 检查区间重叠: [min1, max1) 和 [min2, max2) 重叠的条件是 min1 < max2 && min2 < max1
-            return this.tierForm.minNetDeposit < tier.maxNetDeposit &&
-                   tier.minNetDeposit < this.tierForm.maxNetDeposit;
+          // 检查区间重叠
+          const overlapTier = this.tiers.find(tier => {
+            return this.newTierForm.minNetDeposit < tier.maxNetDeposit &&
+                   tier.minNetDeposit < this.newTierForm.maxNetDeposit;
           });
 
           if (overlapTier) {
@@ -1413,12 +1742,149 @@ if (this.form.minNetDeposit >= this.form.maxNetDeposit) {
             return;
           }
 
-          // 保存成功
-          this.$message.success('保存成功!');
-          this.tierDialogVisible = false;
+          // 生成档位名称
+          const groupMap = { '1': '小额', '2': '中额', '3': '大额' };
+          const groupName = groupMap[groupId];
+          let rangeDesc = '';
+          if (this.newTierForm.minNetDeposit <= 0 && this.newTierForm.maxNetDeposit === 0) {
+            rangeDesc = '净充值≤0';
+          } else {
+            rangeDesc = `净充值${this.newTierForm.minNetDeposit}-${this.newTierForm.maxNetDeposit}USDT`;
+          }
+          const tierName = `${groupName} - ${rangeDesc}`;
+
+          // 添加新档位
+          const newTier = {
+            id: Math.max(...this.tiers.map(t => t.id), 0) + 1,
+            groupId: groupId,
+            groupName: { '1': '小额净充值盈利预警群', '2': '中额净充值盈利预警群', '3': '大额净充值盈利预警群' }[groupId],
+            tierName: tierName,
+            minNetDeposit: this.newTierForm.minNetDeposit,
+            maxNetDeposit: this.newTierForm.maxNetDeposit,
+            alertProfitRate: this.newTierForm.alertProfitRate,
+            status: this.newTierForm.status,
+            createdAt: new Date().toISOString().split('T')[0],
+            triggerCount: 0,
+            userCount: 0,
+            triggerUsers: []
+          };
+
+          this.tiers.push(newTier);
+          this.$message.success('档位添加成功');
+          this.cancelAddTier();
+        },
+        editTier(tier) {
+          // 关闭新增表单
+          this.addingGroupId = null;
+          // 进入编辑模式
+          this.editingTierId = tier.id;
+          // 填充表单数据
+          this.newTierForm = {
+            minNetDeposit: tier.minNetDeposit,
+            maxNetDeposit: tier.maxNetDeposit,
+            alertProfitRate: tier.alertProfitRate,
+            status: tier.status
+          };
+        },
+        saveEdit() {
+          // 校验
+          if (this.newTierForm.minNetDeposit === null || this.newTierForm.minNetDeposit === '') {
+            this.$message.error('请填写最小净充值');
+            return;
+          }
+          if (this.newTierForm.maxNetDeposit === null || this.newTierForm.maxNetDeposit === '') {
+            this.$message.error('请填写最大净充值');
+            return;
+          }
+          if (!this.newTierForm.alertProfitRate) {
+            this.$message.error('请填写预警盈利率');
+            return;
+          }
+          if (this.newTierForm.minNetDeposit >= this.newTierForm.maxNetDeposit) {
+            this.$message.error('最小净充值必须小于最大净充值');
+            return;
+          }
+
+          // 找到要编辑的档位
+          const tier = this.tiers.find(t => t.id === this.editingTierId);
+          if (!tier) {
+            this.$message.error('档位不存在');
+            return;
+          }
+
+          // 检查区间是否与其他档位重叠（排除自己）
+          const overlapping = this.tiers.some(t =>
+            t.id !== this.editingTierId &&
+            t.groupId === tier.groupId &&
+            !(this.newTierForm.maxNetDeposit <= t.minNetDeposit || this.newTierForm.minNetDeposit >= t.maxNetDeposit)
+          );
+          if (overlapping) {
+            this.$message.error('该区间与其他区间重叠');
+            return;
+          }
+
+          // 生成档位名称
+          const groupMap = { '1': '小额', '2': '中额', '3': '大额' };
+          const groupName = groupMap[tier.groupId];
+          let rangeDesc = '';
+          if (this.newTierForm.minNetDeposit <= 0 && this.newTierForm.maxNetDeposit === 0) {
+            rangeDesc = '净充值≤0';
+          } else {
+            rangeDesc = `净充值${this.newTierForm.minNetDeposit}-${this.newTierForm.maxNetDeposit}USDT`;
+          }
+          const tierName = `${groupName} - ${rangeDesc}`;
+
+          // 更新档位
+          tier.tierName = tierName;
+          tier.minNetDeposit = this.newTierForm.minNetDeposit;
+          tier.maxNetDeposit = this.newTierForm.maxNetDeposit;
+          tier.alertProfitRate = this.newTierForm.alertProfitRate;
+          tier.status = this.newTierForm.status;
+
+          this.$message.success('档位更新成功');
+          this.cancelEdit();
+        },
+        cancelEdit() {
+          this.editingTierId = null;
+          this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, alertProfitRate: null, status: 1 };
+        },
+        deleteTier(tier) {
+          this.$confirm('确定要删除该档位吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.tiers = this.tiers.filter(t => t.id !== tier.id);
+            this.$message.success('删除成功');
+          }).catch(() => {
+            this.$message.info('已取消删除');
+          });
+        },
+        viewTriggerRecords(tier) {
+          this.currentTier = tier;
+          this.recordDialogVisible = true;
+          this.resetFilter();
+        },
+        resetFilter() {
+          this.filterForm = {
+            uid: '',
+            minProfitRate: null,
+            maxProfitRate: null,
+            startDate: '',
+            endDate: ''
+          };
+          this.currentPage = 1;
+        },
+        handlePageChange(page) {
+          this.currentPage = page;
+        },
+        handleSizeChange(size) {
+          this.pageSize = size;
+          this.currentPage = 1;
         }
       }
     });
   </script>
 </body>
 </html>
+
