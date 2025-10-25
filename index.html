@@ -462,7 +462,7 @@
           <div class="submenu" :class="{ open: menuOpen.notify }">
             <div class="menu-item active">
               <i class="el-icon-setting"></i>
-              净充值盈利率配置查询
+              盈利用户监控
             </div>
           </div>
         </div>
@@ -471,7 +471,7 @@
       <!-- 主内容区 -->
       <div class="main-container">
         <div class="page-container">
-          <h1 class="page-title">净充值盈利率配置查询</h1>
+          <h1 class="page-title">盈利用户监控</h1>
 
           <!-- 小额群组 -->
           <div class="group-section">
@@ -882,6 +882,11 @@
     <div class="tab-content" v-show="globalTab === 'prd'">
       <!-- 这里将插入完整的产品文档内容 -->
       <h1>产品需求文档(PRD)</h1>
+
+      <div style="text-align: center; margin: 30px 0;">
+        <img src="image.png" alt="产品需求概览图" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      </div>
+
       <h2>需求一：净充值盈利率预警系统</h2>
 
       <h3>一、需求背景</h3>
@@ -1347,6 +1352,35 @@ if (净充值 <= 0) {
         <li><strong>禁用状态的群组或档位</strong>: 不触发报警</li>
       </ul>
 
+      <hr>
+
+      <h2>需求二：链上提币记录UID跳转</h2>
+
+      <div style="text-align: center; margin: 30px 0;">
+        <img src="image copy.png" alt="链上提币记录UID跳转" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      </div>
+
+      <h3>需求描述</h3>
+      <p>「资金管理」-「链上提币」记录中，如果 UID 是出现在「风控管理」-「盈利用户监控」表里的用户，则 <strong style="color: red; text-decoration: underline;">UID 标红加下划线</strong>，点击跳转到「风控管理」-「盈利用户监控」-新增的「净充值预警配置」-这个 UID 所在档位的「查看触发记录」表。</p>
+
+      <p><strong>特殊场景</strong>：如果 UID 同时出现在多个档位的「触发记录」（比如由于净充值的变化），则跳转到最新出现的档位所在记录里。</p>
+
+      <div style="text-align: center; margin: 30px 0;">
+        <img src="157ae51f-3a7b-4456-85df-4b0c04a24a80.png" alt="UID跳转示例" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      </div>
+
+      <hr>
+
+      <h2>需求三：盈利用户监控跳转通知记录</h2>
+
+      <div style="text-align: center; margin: 30px 0;">
+        <img src="image copy 2.png" alt="盈利用户监控跳转通知记录" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+      </div>
+
+      <h3>需求描述</h3>
+      <p>点击<strong style="text-decoration: underline;">带下划线的数字</strong>跳转到「风控管理」-「盈利用户监控」-新增的「净充值预警配置」-这个 UID 所在档位的「查看触发记录」表。</p>
+
+      <p><strong>特殊场景</strong>：如果 UID 同时出现在多个档位的「触发记录」（比如由于净充值的变化），则跳转到最新出现的档位所在记录里。</p>
 
     </div>
 
