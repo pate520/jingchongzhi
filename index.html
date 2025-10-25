@@ -486,9 +486,6 @@
               <template v-if="editingTierId !== tier.id">
                 <div class="tier-item-header">
                   <div class="tier-item-title">{{ tier.tierName }}</div>
-                  <el-tag :type="tier.status === 1 ? 'success' : 'info'" size="small">
-                    {{ tier.status === 1 ? '开启' : '关闭' }}
-                  </el-tag>
                 </div>
                 <hr class="tier-divider">
                 <div class="tier-info-row">
@@ -500,6 +497,10 @@
                   <span class="tier-info-value">{{ tier.triggerCount }} 次</span>
                   <span class="tier-info-label">涉及用户</span>
                   <span class="tier-info-value">{{ tier.userCount }} 个</span>
+                  <span class="tier-info-label">TG通知</span>
+                  <span class="tier-info-value">{{ tier.tgNotifyStatus === 1 ? '开启' : '关闭' }}</span>
+                  <span class="tier-info-label">站内通知</span>
+                  <span class="tier-info-value">{{ tier.internalNotifyStatus === 1 ? '开启' : '关闭' }}</span>
                 </div>
                 <div class="tier-item-actions">
                   <button class="btn-view" @click="viewTriggerRecords(tier)">查看触发记录</button>
@@ -528,13 +529,30 @@
                   <input v-model.number="newTierForm.maxAlertProfitRate" type="number">
                 </div>
                 <div class="add-tier-form-row">
-                  <label>状态</label>
-                  <select v-model.number="newTierForm.status">
+                  <label>TG通知状态</label>
+                  <select v-model.number="newTierForm.tgNotifyStatus">
                     <option :value="1">开启</option>
                     <option :value="0">关闭</option>
                   </select>
-                  <span></span>
-                  <span></span>
+                  <label>站内通知状态</label>
+                  <select v-model.number="newTierForm.internalNotifyStatus">
+                    <option :value="1">开启</option>
+                    <option :value="0">关闭</option>
+                  </select>
+                  <label>站内通知人员</label>
+                  <el-select
+                    v-model="newTierForm.internalNotifyUsers"
+                    multiple
+                    filterable
+                    placeholder="请选择通知人员"
+                    style="width: 300px;">
+                    <el-option
+                      v-for="admin in adminUsers"
+                      :key="admin.username"
+                      :label="admin.realName"
+                      :value="admin.username">
+                    </el-option>
+                  </el-select>
                 </div>
                 <div class="add-tier-actions">
                   <button class="btn-save" @click="saveEdit">保存</button>
@@ -563,13 +581,30 @@
                 <input v-model.number="newTierForm.maxAlertProfitRate" type="number" placeholder="如: 550">
               </div>
               <div class="add-tier-form-row">
-                <label>状态</label>
-                <select v-model.number="newTierForm.status">
+                <label>TG通知状态</label>
+                <select v-model.number="newTierForm.tgNotifyStatus">
                   <option :value="1">开启</option>
                   <option :value="0">关闭</option>
                 </select>
-                <span></span>
-                <span></span>
+                <label>站内通知状态</label>
+                <select v-model.number="newTierForm.internalNotifyStatus">
+                  <option :value="1">开启</option>
+                  <option :value="0">关闭</option>
+                </select>
+                <label>站内通知人员</label>
+                <el-select
+                  v-model="newTierForm.internalNotifyUsers"
+                  multiple
+                  filterable
+                  placeholder="请选择通知人员"
+                  style="width: 300px;">
+                  <el-option
+                    v-for="admin in adminUsers"
+                    :key="admin.username"
+                    :label="admin.realName"
+                    :value="admin.username">
+                  </el-option>
+                </el-select>
               </div>
               <div class="add-tier-actions">
                 <button class="btn-save" @click="saveNewTier('1')">保存</button>
@@ -594,9 +629,6 @@
               <template v-if="editingTierId !== tier.id">
                 <div class="tier-item-header">
                   <div class="tier-item-title">{{ tier.tierName }}</div>
-                  <el-tag :type="tier.status === 1 ? 'success' : 'info'" size="small">
-                    {{ tier.status === 1 ? '开启' : '关闭' }}
-                  </el-tag>
                 </div>
                 <hr class="tier-divider">
                 <div class="tier-info-row">
@@ -608,6 +640,10 @@
                   <span class="tier-info-value">{{ tier.triggerCount }} 次</span>
                   <span class="tier-info-label">涉及用户</span>
                   <span class="tier-info-value">{{ tier.userCount }} 个</span>
+                  <span class="tier-info-label">TG通知</span>
+                  <span class="tier-info-value">{{ tier.tgNotifyStatus === 1 ? '开启' : '关闭' }}</span>
+                  <span class="tier-info-label">站内通知</span>
+                  <span class="tier-info-value">{{ tier.internalNotifyStatus === 1 ? '开启' : '关闭' }}</span>
                 </div>
                 <div class="tier-item-actions">
                   <button class="btn-view" @click="viewTriggerRecords(tier)">查看触发记录</button>
@@ -636,13 +672,30 @@
                   <input v-model.number="newTierForm.maxAlertProfitRate" type="number">
                 </div>
                 <div class="add-tier-form-row">
-                  <label>状态</label>
-                  <select v-model.number="newTierForm.status">
+                  <label>TG通知状态</label>
+                  <select v-model.number="newTierForm.tgNotifyStatus">
                     <option :value="1">开启</option>
                     <option :value="0">关闭</option>
                   </select>
-                  <span></span>
-                  <span></span>
+                  <label>站内通知状态</label>
+                  <select v-model.number="newTierForm.internalNotifyStatus">
+                    <option :value="1">开启</option>
+                    <option :value="0">关闭</option>
+                  </select>
+                  <label>站内通知人员</label>
+                  <el-select
+                    v-model="newTierForm.internalNotifyUsers"
+                    multiple
+                    filterable
+                    placeholder="请选择通知人员"
+                    style="width: 300px;">
+                    <el-option
+                      v-for="admin in adminUsers"
+                      :key="admin.username"
+                      :label="admin.realName"
+                      :value="admin.username">
+                    </el-option>
+                  </el-select>
                 </div>
                 <div class="add-tier-actions">
                   <button class="btn-save" @click="saveEdit">保存</button>
@@ -671,13 +724,30 @@
                 <input v-model.number="newTierForm.maxAlertProfitRate" type="number" placeholder="如: 500">
               </div>
               <div class="add-tier-form-row">
-                <label>状态</label>
-                <select v-model.number="newTierForm.status">
+                <label>TG通知状态</label>
+                <select v-model.number="newTierForm.tgNotifyStatus">
                   <option :value="1">开启</option>
                   <option :value="0">关闭</option>
                 </select>
-                <span></span>
-                <span></span>
+                <label>站内通知状态</label>
+                <select v-model.number="newTierForm.internalNotifyStatus">
+                  <option :value="1">开启</option>
+                  <option :value="0">关闭</option>
+                </select>
+                <label>站内通知人员</label>
+                <el-select
+                  v-model="newTierForm.internalNotifyUsers"
+                  multiple
+                  filterable
+                  placeholder="请选择通知人员"
+                  style="width: 300px;">
+                  <el-option
+                    v-for="admin in adminUsers"
+                    :key="admin.username"
+                    :label="admin.realName"
+                    :value="admin.username">
+                  </el-option>
+                </el-select>
               </div>
               <div class="add-tier-actions">
                 <button class="btn-save" @click="saveNewTier('2')">保存</button>
@@ -702,9 +772,6 @@
               <template v-if="editingTierId !== tier.id">
                 <div class="tier-item-header">
                   <div class="tier-item-title">{{ tier.tierName }}</div>
-                  <el-tag :type="tier.status === 1 ? 'success' : 'info'" size="small">
-                    {{ tier.status === 1 ? '开启' : '关闭' }}
-                  </el-tag>
                 </div>
                 <hr class="tier-divider">
                 <div class="tier-info-row">
@@ -716,6 +783,10 @@
                   <span class="tier-info-value">{{ tier.triggerCount }} 次</span>
                   <span class="tier-info-label">涉及用户</span>
                   <span class="tier-info-value">{{ tier.userCount }} 个</span>
+                  <span class="tier-info-label">TG通知</span>
+                  <span class="tier-info-value">{{ tier.tgNotifyStatus === 1 ? '开启' : '关闭' }}</span>
+                  <span class="tier-info-label">站内通知</span>
+                  <span class="tier-info-value">{{ tier.internalNotifyStatus === 1 ? '开启' : '关闭' }}</span>
                 </div>
                 <div class="tier-item-actions">
                   <button class="btn-view" @click="viewTriggerRecords(tier)">查看触发记录</button>
@@ -744,13 +815,30 @@
                   <input v-model.number="newTierForm.maxAlertProfitRate" type="number">
                 </div>
                 <div class="add-tier-form-row">
-                  <label>状态</label>
-                  <select v-model.number="newTierForm.status">
+                  <label>TG通知状态</label>
+                  <select v-model.number="newTierForm.tgNotifyStatus">
                     <option :value="1">开启</option>
                     <option :value="0">关闭</option>
                   </select>
-                  <span></span>
-                  <span></span>
+                  <label>站内通知状态</label>
+                  <select v-model.number="newTierForm.internalNotifyStatus">
+                    <option :value="1">开启</option>
+                    <option :value="0">关闭</option>
+                  </select>
+                  <label>站内通知人员</label>
+                  <el-select
+                    v-model="newTierForm.internalNotifyUsers"
+                    multiple
+                    filterable
+                    placeholder="请选择通知人员"
+                    style="width: 300px;">
+                    <el-option
+                      v-for="admin in adminUsers"
+                      :key="admin.username"
+                      :label="admin.realName"
+                      :value="admin.username">
+                    </el-option>
+                  </el-select>
                 </div>
                 <div class="add-tier-actions">
                   <button class="btn-save" @click="saveEdit">保存</button>
@@ -779,13 +867,30 @@
                 <input v-model.number="newTierForm.maxAlertProfitRate" type="number" placeholder="如: 400">
               </div>
               <div class="add-tier-form-row">
-                <label>状态</label>
-                <select v-model.number="newTierForm.status">
+                <label>TG通知状态</label>
+                <select v-model.number="newTierForm.tgNotifyStatus">
                   <option :value="1">开启</option>
                   <option :value="0">关闭</option>
                 </select>
-                <span></span>
-                <span></span>
+                <label>站内通知状态</label>
+                <select v-model.number="newTierForm.internalNotifyStatus">
+                  <option :value="1">开启</option>
+                  <option :value="0">关闭</option>
+                </select>
+                <label>站内通知人员</label>
+                <el-select
+                  v-model="newTierForm.internalNotifyUsers"
+                  multiple
+                  filterable
+                  placeholder="请选择通知人员"
+                  style="width: 300px;">
+                  <el-option
+                    v-for="admin in adminUsers"
+                    :key="admin.username"
+                    :label="admin.realName"
+                    :value="admin.username">
+                  </el-option>
+                </el-select>
               </div>
               <div class="add-tier-actions">
                 <button class="btn-save" @click="saveNewTier('3')">保存</button>
@@ -1129,10 +1234,22 @@ if (净充值 <= 0) {
           <td>是</td>
         </tr>
         <tr>
-          <td>状态</td>
-          <td>启用/禁用</td>
+          <td>TG通知状态</td>
+          <td>Telegram通知启用/禁用</td>
           <td>启用</td>
           <td>是</td>
+        </tr>
+        <tr>
+          <td>站内通知状态</td>
+          <td>站内通知启用/禁用</td>
+          <td>启用</td>
+          <td>是</td>
+        </tr>
+        <tr>
+          <td>站内通知人员</td>
+          <td>接收站内通知的Admin账号列表</td>
+          <td>["admin1", "admin2"]</td>
+          <td>站内通知开启时必填</td>
         </tr>
       </table>
 
@@ -1149,8 +1266,9 @@ if (净充值 <= 0) {
       <ul>
         <li>每个群组可配置多个档位</li>
         <li>档位名称由系统自动生成,无需手动输入</li>
-        <li>配置项: 所属群组、最小净充值、最大净充值、最小预警盈利率、最大预警盈利率、状态</li>
+        <li>配置项: 所属群组、最小净充值、最大净充值、最小预警盈利率、最大预警盈利率、TG通知状态、站内通知状态、站内通知人员</li>
         <li>区间验证规则: 最小预警盈利率必须小于最大预警盈利率</li>
+        <li>站内通知人员校验: 当站内通知状态开启时，站内通知人员必填</li>
       </ul>
 
       <h4>3.3 触发机制</h4>
@@ -1167,7 +1285,13 @@ if (净充值 <= 0) {
       <p>4. 匹配用户净充值所在的档位区间</p>
       <p>5. 判断盈利率是否在档位的预警盈利率区间内 (最小预警盈利率 <= 盈利率 < 最大预警盈利率)</p>
       <p>6. 检查该用户在该档位当日是否已报警过(防重复)</p>
-      <p>7. 若满足条件且未报警,则发送 Telegram 通知并记录</p>
+      <p>7. 若满足条件且未报警,则根据配置发送通知:</p>
+      <ul>
+        <li>若TG通知状态开启,发送 Telegram 通知</li>
+        <li>若站内通知状态开启,发送站内通知给指定的Admin账号</li>
+        <li>站内通知内容复用 Telegram 通知内容</li>
+      </ul>
+      <p>8. 记录报警记录</p>
 
       <p><strong>防重复机制</strong>:</p>
       <ul>
@@ -1532,6 +1656,7 @@ if (overlapTier) {
         <li>最大净充值: 必填</li>
         <li>最小预警盈利率: 必填,必须大于0</li>
         <li>最大预警盈利率: 必填,必须大于0</li>
+        <li>站内通知人员: 当站内通知状态开启时必填</li>
       </ul>
 
       <h3>2. 数值校验</h3>
@@ -1545,6 +1670,14 @@ if (this.newTierForm.minNetDeposit >= this.newTierForm.maxNetDeposit) {
 if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) {
   this.$message.error('最小预警盈利率必须小于最大预警盈利率');
   return;
+}
+
+// 站内通知人员校验
+if (this.newTierForm.internalNotifyStatus === 1) {
+  if (!this.newTierForm.internalNotifyUsers || this.newTierForm.internalNotifyUsers.length === 0) {
+    this.$message.error('站内通知状态已开启，请选择站内通知人员');
+    return;
+  }
 }</pre>
 
       <h3>3. 完整校验流程（新增档位）</h3>
@@ -1577,7 +1710,15 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
     return;
   }
 
-  // 3. 区间重叠校验
+  // 3. 站内通知人员校验
+  if (this.newTierForm.internalNotifyStatus === 1) {
+    if (!this.newTierForm.internalNotifyUsers || this.newTierForm.internalNotifyUsers.length === 0) {
+      this.$message.error('站内通知状态已开启，请选择站内通知人员');
+      return;
+    }
+  }
+
+  // 4. 区间重叠校验
   const overlapTier = this.tiers.find(tier => {
     return this.newTierForm.minNetDeposit < tier.maxNetDeposit &&
            tier.minNetDeposit < this.newTierForm.maxNetDeposit;
@@ -1608,7 +1749,9 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
     maxNetDeposit: this.newTierForm.maxNetDeposit,
     minAlertProfitRate: this.newTierForm.minAlertProfitRate,
     maxAlertProfitRate: this.newTierForm.maxAlertProfitRate,
-    status: this.newTierForm.status,
+    tgNotifyStatus: this.newTierForm.tgNotifyStatus,
+    internalNotifyStatus: this.newTierForm.internalNotifyStatus,
+    internalNotifyUsers: this.newTierForm.internalNotifyUsers,
     triggerCount: 0,
     userCount: 0
   };
@@ -1618,7 +1761,7 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
 
   // 关闭新增表单
   this.addingGroupId = null;
-  this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, minAlertProfitRate: null, maxAlertProfitRate: null, status: 1 };
+  this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, minAlertProfitRate: null, maxAlertProfitRate: null, tgNotifyStatus: 1, internalNotifyStatus: 0, internalNotifyUsers: [] };
 }</pre>
 
       <h3>4. 完整校验流程（编辑档位）</h3>
@@ -1651,7 +1794,15 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
     return;
   }
 
-  // 3. 区间重叠校验（跳过当前编辑的档位）
+  // 3. 站内通知人员校验
+  if (this.newTierForm.internalNotifyStatus === 1) {
+    if (!this.newTierForm.internalNotifyUsers || this.newTierForm.internalNotifyUsers.length === 0) {
+      this.$message.error('站内通知状态已开启，请选择站内通知人员');
+      return;
+    }
+  }
+
+  // 4. 区间重叠校验（跳过当前编辑的档位）
   const overlapTier = this.tiers.find(tier => {
     if (tier.id === this.editingTierId) return false;
     return this.newTierForm.minNetDeposit < tier.maxNetDeposit &&
@@ -1680,13 +1831,15 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
   tier.maxNetDeposit = this.newTierForm.maxNetDeposit;
   tier.minAlertProfitRate = this.newTierForm.minAlertProfitRate;
   tier.maxAlertProfitRate = this.newTierForm.maxAlertProfitRate;
-  tier.status = this.newTierForm.status;
+  tier.tgNotifyStatus = this.newTierForm.tgNotifyStatus;
+  tier.internalNotifyStatus = this.newTierForm.internalNotifyStatus;
+  tier.internalNotifyUsers = this.newTierForm.internalNotifyUsers;
 
   this.$message.success('档位更新成功');
 
   // 退出编辑模式
   this.editingTierId = null;
-  this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, minAlertProfitRate: null, maxAlertProfitRate: null, status: 1 };
+  this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, minAlertProfitRate: null, maxAlertProfitRate: null, tgNotifyStatus: 1, internalNotifyStatus: 0, internalNotifyUsers: [] };
 }</pre>
 
     </div>
@@ -1755,8 +1908,17 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
           maxNetDeposit: null,
           minAlertProfitRate: null,
           maxAlertProfitRate: null,
-          status: 1
+          tgNotifyStatus: 1,
+          internalNotifyStatus: 0,
+          internalNotifyUsers: []
         },
+        // Admin 账号列表
+        adminUsers: [
+          { id: 1, username: 'admin1', realName: '张三' },
+          { id: 2, username: 'admin2', realName: '李四' },
+          { id: 3, username: 'admin3', realName: '王五' },
+          { id: 4, username: 'admin4', realName: '赵六' }
+        ],
         recordDialogVisible: false,
         currentTier: null,
         // 筛选条件
@@ -1794,12 +1956,12 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
           { id: 14, tierId: 6, uid: '424242', tierName: '大额 - 净充值500+USDT', netDeposit: 600.00, maxNetDeposit: 1000.00, totalAssets: 2400.00, totalProfit: 1800.00, profitRate: 300.00, alertTime: '2025-01-15 11:15:30' }
         ],
         tiers: [
-          { id: 1, groupId: '1', groupName: '小额净充值盈利预警群', tierName: '小额 - 净充值≤0', minNetDeposit: -999999, maxNetDeposit: 0, minAlertProfitRate: 4500, maxAlertProfitRate: 5500, status: 1, createdAt: '2025-01-10', triggerCount: 12, userCount: 8, triggerUsers: ['123456', '789012', '345678', '901234', '567890', '234567', '890123', '456789'] },
-          { id: 2, groupId: '1', groupName: '小额净充值盈利预警群', tierName: '小额 - 净充值0-50USDT', minNetDeposit: 0, maxNetDeposit: 50, minAlertProfitRate: 450, maxAlertProfitRate: 550, status: 1, createdAt: '2025-01-10', triggerCount: 45, userCount: 23, triggerUsers: ['111111', '222222', '333333', '444444', '555555', '666666', '777777', '888888', '999999', '101010'] },
-          { id: 3, groupId: '2', groupName: '中额净充值盈利预警群', tierName: '中额 - 净充值50-100USDT', minNetDeposit: 50, maxNetDeposit: 100, minAlertProfitRate: 400, maxAlertProfitRate: 500, status: 1, createdAt: '2025-01-11', triggerCount: 28, userCount: 15, triggerUsers: ['121212', '131313', '141414', '151515', '161616', '171717', '181818', '191919', '202020'] },
-          { id: 4, groupId: '2', groupName: '中额净充值盈利预警群', tierName: '中额 - 净充值100-200USDT', minNetDeposit: 100, maxNetDeposit: 200, minAlertProfitRate: 350, maxAlertProfitRate: 450, status: 1, createdAt: '2025-01-11', triggerCount: 18, userCount: 10, triggerUsers: ['212121', '222222', '232323', '242424', '252525'] },
-          { id: 5, groupId: '3', groupName: '大额净充值盈利预警群', tierName: '大额 - 净充值200-500USDT', minNetDeposit: 200, maxNetDeposit: 500, minAlertProfitRate: 300, maxAlertProfitRate: 400, status: 1, createdAt: '2025-01-12', triggerCount: 15, userCount: 9, triggerUsers: ['313131', '323232', '333333', '343434', '353535'] },
-          { id: 6, groupId: '3', groupName: '大额净充值盈利预警群', tierName: '大额 - 净充值500-999999USDT', minNetDeposit: 500, maxNetDeposit: 999999, minAlertProfitRate: 250, maxAlertProfitRate: 350, status: 1, createdAt: '2025-01-12', triggerCount: 8, userCount: 5, triggerUsers: ['414141', '424242', '434343'] }
+          { id: 1, groupId: '1', groupName: '小额净充值盈利预警群', tierName: '小额 - 净充值≤0', minNetDeposit: -999999, maxNetDeposit: 0, minAlertProfitRate: 4500, maxAlertProfitRate: 5500, tgNotifyStatus: 1, internalNotifyStatus: 1, internalNotifyUsers: ['admin1', 'admin2'], createdAt: '2025-01-10', triggerCount: 12, userCount: 8, triggerUsers: ['123456', '789012', '345678', '901234', '567890', '234567', '890123', '456789'] },
+          { id: 2, groupId: '1', groupName: '小额净充值盈利预警群', tierName: '小额 - 净充值0-50USDT', minNetDeposit: 0, maxNetDeposit: 50, minAlertProfitRate: 450, maxAlertProfitRate: 550, tgNotifyStatus: 1, internalNotifyStatus: 0, internalNotifyUsers: [], createdAt: '2025-01-10', triggerCount: 45, userCount: 23, triggerUsers: ['111111', '222222', '333333', '444444', '555555', '666666', '777777', '888888', '999999', '101010'] },
+          { id: 3, groupId: '2', groupName: '中额净充值盈利预警群', tierName: '中额 - 净充值50-100USDT', minNetDeposit: 50, maxNetDeposit: 100, minAlertProfitRate: 400, maxAlertProfitRate: 500, tgNotifyStatus: 1, internalNotifyStatus: 1, internalNotifyUsers: ['admin1', 'admin3'], createdAt: '2025-01-11', triggerCount: 28, userCount: 15, triggerUsers: ['121212', '131313', '141414', '151515', '161616', '171717', '181818', '191919', '202020'] },
+          { id: 4, groupId: '2', groupName: '中额净充值盈利预警群', tierName: '中额 - 净充值100-200USDT', minNetDeposit: 100, maxNetDeposit: 200, minAlertProfitRate: 350, maxAlertProfitRate: 450, tgNotifyStatus: 1, internalNotifyStatus: 0, internalNotifyUsers: [], createdAt: '2025-01-11', triggerCount: 18, userCount: 10, triggerUsers: ['212121', '222222', '232323', '242424', '252525'] },
+          { id: 5, groupId: '3', groupName: '大额净充值盈利预警群', tierName: '大额 - 净充值200-500USDT', minNetDeposit: 200, maxNetDeposit: 500, minAlertProfitRate: 300, maxAlertProfitRate: 400, tgNotifyStatus: 1, internalNotifyStatus: 1, internalNotifyUsers: ['admin2', 'admin4'], createdAt: '2025-01-12', triggerCount: 15, userCount: 9, triggerUsers: ['313131', '323232', '333333', '343434', '353535'] },
+          { id: 6, groupId: '3', groupName: '大额净充值盈利预警群', tierName: '大额 - 净充值500-999999USDT', minNetDeposit: 500, maxNetDeposit: 999999, minAlertProfitRate: 250, maxAlertProfitRate: 350, tgNotifyStatus: 1, internalNotifyStatus: 0, internalNotifyUsers: [], createdAt: '2025-01-12', triggerCount: 8, userCount: 5, triggerUsers: ['414141', '424242', '434343'] }
         ]
       },
       computed: {
@@ -1864,11 +2026,11 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
         },
         startAddTier(groupId) {
           this.addingGroupId = groupId;
-          this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, minAlertProfitRate: null, maxAlertProfitRate: null, status: 1 };
+          this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, minAlertProfitRate: null, maxAlertProfitRate: null, tgNotifyStatus: 1, internalNotifyStatus: 0, internalNotifyUsers: [] };
         },
         cancelAddTier() {
           this.addingGroupId = null;
-          this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, minAlertProfitRate: null, maxAlertProfitRate: null, status: 1 };
+          this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, minAlertProfitRate: null, maxAlertProfitRate: null, tgNotifyStatus: 1, internalNotifyStatus: 0, internalNotifyUsers: [] };
         },
         saveNewTier(groupId) {
           // 校验
@@ -1895,6 +2057,14 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
           if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) {
             this.$message.error('最小预警盈利率必须小于最大预警盈利率');
             return;
+          }
+
+          // 站内通知人员校验
+          if (this.newTierForm.internalNotifyStatus === 1) {
+            if (!this.newTierForm.internalNotifyUsers || this.newTierForm.internalNotifyUsers.length === 0) {
+              this.$message.error('站内通知状态已开启，请选择站内通知人员');
+              return;
+            }
           }
 
           // 检查区间重叠
@@ -1929,7 +2099,9 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
             maxNetDeposit: this.newTierForm.maxNetDeposit,
             minAlertProfitRate: this.newTierForm.minAlertProfitRate,
             maxAlertProfitRate: this.newTierForm.maxAlertProfitRate,
-            status: this.newTierForm.status,
+            tgNotifyStatus: this.newTierForm.tgNotifyStatus,
+            internalNotifyStatus: this.newTierForm.internalNotifyStatus,
+            internalNotifyUsers: this.newTierForm.internalNotifyUsers,
             createdAt: new Date().toISOString().split('T')[0],
             triggerCount: 0,
             userCount: 0,
@@ -1951,7 +2123,9 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
             maxNetDeposit: tier.maxNetDeposit,
             minAlertProfitRate: tier.minAlertProfitRate,
             maxAlertProfitRate: tier.maxAlertProfitRate,
-            status: tier.status
+            tgNotifyStatus: tier.tgNotifyStatus,
+            internalNotifyStatus: tier.internalNotifyStatus,
+            internalNotifyUsers: tier.internalNotifyUsers || []
           };
         },
         saveEdit() {
@@ -1979,6 +2153,14 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
           if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) {
             this.$message.error('最小预警盈利率必须小于最大预警盈利率');
             return;
+          }
+
+          // 站内通知人员校验
+          if (this.newTierForm.internalNotifyStatus === 1) {
+            if (!this.newTierForm.internalNotifyUsers || this.newTierForm.internalNotifyUsers.length === 0) {
+              this.$message.error('站内通知状态已开启，请选择站内通知人员');
+              return;
+            }
           }
 
           // 找到要编辑的档位
@@ -2016,14 +2198,16 @@ if (this.newTierForm.minAlertProfitRate >= this.newTierForm.maxAlertProfitRate) 
           tier.maxNetDeposit = this.newTierForm.maxNetDeposit;
           tier.minAlertProfitRate = this.newTierForm.minAlertProfitRate;
           tier.maxAlertProfitRate = this.newTierForm.maxAlertProfitRate;
-          tier.status = this.newTierForm.status;
+          tier.tgNotifyStatus = this.newTierForm.tgNotifyStatus;
+          tier.internalNotifyStatus = this.newTierForm.internalNotifyStatus;
+          tier.internalNotifyUsers = this.newTierForm.internalNotifyUsers;
 
           this.$message.success('档位更新成功');
           this.cancelEdit();
         },
         cancelEdit() {
           this.editingTierId = null;
-          this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, minAlertProfitRate: null, maxAlertProfitRate: null, status: 1 };
+          this.newTierForm = { minNetDeposit: null, maxNetDeposit: null, minAlertProfitRate: null, maxAlertProfitRate: null, tgNotifyStatus: 1, internalNotifyStatus: 0, internalNotifyUsers: [] };
         },
         deleteTier(tier) {
           this.$confirm('确定要删除该档位吗?', '提示', {
