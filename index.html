@@ -425,6 +425,62 @@
       font-weight: 600;
       color: #303133;
     }
+    /* 产品文档导航样式 */
+    .prd-navigation {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+      border-radius: 8px;
+      padding: 20px 25px;
+      margin: 20px 0 30px 0;
+      border: 1px solid #d9e3f0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+    .nav-links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .nav-link {
+      flex: 1;
+      min-width: 250px;
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      background: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #303133;
+      border: 2px solid #e4e7ed;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .nav-link:hover {
+      border-color: #409EFF;
+      box-shadow: 0 4px 12px rgba(64,158,255,0.2);
+      transform: translateY(-2px);
+    }
+    .nav-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #409EFF 0%, #66b1ff 100%);
+      color: #fff;
+      border-radius: 50%;
+      font-weight: bold;
+      font-size: 16px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .nav-title {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    .nav-link:hover .nav-number {
+      background: linear-gradient(135deg, #66b1ff 0%, #409EFF 100%);
+      box-shadow: 0 2px 8px rgba(64,158,255,0.4);
+    }
   </style>
 </head>
 <body>
@@ -471,7 +527,7 @@
       <!-- 主内容区 -->
       <div class="main-container">
         <div class="page-container">
-          <h1 class="page-title">盈利用户监控</h1>
+          <h1 class="page-title">净充值盈利率预警</h1>
 
           <!-- 小额群组 -->
           <div class="group-section">
@@ -1000,11 +1056,30 @@
       <!-- 这里将插入完整的产品文档内容 -->
       <h1>产品需求文档(PRD)</h1>
 
+      <!-- 快速导航 -->
+      <div class="prd-navigation">
+        <h3 style="margin-bottom: 15px; color: #409EFF;">📑 快速导航</h3>
+        <div class="nav-links">
+          <a href="#requirement-1" class="nav-link">
+            <span class="nav-number">1</span>
+            <span class="nav-title">净充值盈利率预警系统</span>
+          </a>
+          <a href="#requirement-2" class="nav-link">
+            <span class="nav-number">2</span>
+            <span class="nav-title">链上提币记录UID跳转</span>
+          </a>
+          <a href="#requirement-3" class="nav-link">
+            <span class="nav-number">3</span>
+            <span class="nav-title">盈利用户监控跳转通知记录</span>
+          </a>
+        </div>
+      </div>
+
       <div style="text-align: center; margin: 30px 0;">
         <img src="image.png" alt="产品需求概览图" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
       </div>
 
-      <h2>需求一：净充值盈利率预警系统</h2>
+      <h2 id="requirement-1">需求一：净充值盈利率预警系统</h2>
 
       <h3>一、需求背景</h3>
 
@@ -1530,7 +1605,7 @@ if (净充值 <= 0) {
 
       <hr>
 
-      <h2>需求二：链上提币记录UID跳转</h2>
+      <h2 id="requirement-2">需求二：链上提币记录UID跳转</h2>
 
       <div style="text-align: center; margin: 30px 0;">
         <img src="image copy.png" alt="链上提币记录UID跳转" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
@@ -1547,7 +1622,7 @@ if (净充值 <= 0) {
 
       <hr>
 
-      <h2>需求三：盈利用户监控跳转通知记录</h2>
+      <h2 id="requirement-3">需求三：盈利用户监控跳转通知记录</h2>
 
       <div style="text-align: center; margin: 30px 0;">
         <img src="image copy 2.png" alt="盈利用户监控跳转通知记录" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
