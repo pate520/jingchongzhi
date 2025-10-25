@@ -882,7 +882,7 @@
     <div class="tab-content" v-show="globalTab === 'prd'">
       <!-- 这里将插入完整的产品文档内容 -->
       <h1>产品需求文档(PRD)</h1>
-      <h2>净充值盈利率预警系统</h2>
+      <h2>需求一：净充值盈利率预警系统</h2>
 
       <h3>一、需求背景</h3>
 
@@ -914,6 +914,81 @@
         <li>每次用户发生充值或提现行为时(包括链上充值、链上提现、法币入金等),重新计算当前净充值</li>
         <li>若当前净充值 > 历史最高净充值,则更新历史最高净充值</li>
         <li>该字段只增不减,记录用户曾经达到过的最高本金水平</li>
+      </ul>
+
+      <p><strong>示例</strong>:</p>
+      <table>
+        <tr>
+          <th>操作</th>
+          <th>总充值</th>
+          <th>总提现</th>
+          <th>当前净充值</th>
+          <th>历史最高净充值</th>
+          <th>说明</th>
+        </tr>
+        <tr>
+          <td>初始状态</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>用户刚注册</td>
+        </tr>
+        <tr>
+          <td>充值 100 USDT</td>
+          <td>100</td>
+          <td>0</td>
+          <td>100</td>
+          <td><strong>100</strong></td>
+          <td>✅ 净充值增加，更新历史最高</td>
+        </tr>
+        <tr>
+          <td>充值 200 USDT</td>
+          <td>300</td>
+          <td>0</td>
+          <td>300</td>
+          <td><strong>300</strong></td>
+          <td>✅ 净充值增加，更新历史最高</td>
+        </tr>
+        <tr>
+          <td>提现 50 USDT</td>
+          <td>300</td>
+          <td>50</td>
+          <td>250</td>
+          <td><strong>300</strong></td>
+          <td>❌ 净充值减少，历史最高不变</td>
+        </tr>
+        <tr>
+          <td>充值 100 USDT</td>
+          <td>400</td>
+          <td>50</td>
+          <td>350</td>
+          <td><strong>350</strong></td>
+          <td>✅ 净充值增加但未超过历史最高，更新为当前值</td>
+        </tr>
+        <tr>
+          <td>提现 400 USDT</td>
+          <td>400</td>
+          <td>450</td>
+          <td>-50</td>
+          <td><strong>350</strong></td>
+          <td>❌ 净充值变负，历史最高不变（保持 350）</td>
+        </tr>
+        <tr>
+          <td>充值 500 USDT</td>
+          <td>900</td>
+          <td>450</td>
+          <td>450</td>
+          <td><strong>450</strong></td>
+          <td>✅ 净充值增加超过历史最高，更新为 450</td>
+        </tr>
+      </table>
+
+      <p><strong>关键规则</strong>:</p>
+      <ul>
+        <li>✅ 当前净充值 > 历史最高净充值 → 更新历史最高</li>
+        <li>❌ 当前净充值 ≤ 历史最高净充值 → 历史最高不变</li>
+        <li>📌 历史最高净充值永远记录用户曾经达到过的最高本金水平</li>
       </ul>
 
 
