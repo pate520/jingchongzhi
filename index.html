@@ -578,7 +578,7 @@
                 <div class="add-tier-form-row">
                   <label class="label-with-tip">
                     <span>最小预警盈利率（≥%）</span>
-                    <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                    <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 历史最高净充值&#10;历史最高净充值≤0时按1计算">❓</span>
                   </label>
                   <input v-model.number="newTierForm.minAlertProfitRate" type="number">
                   <label>最大预警盈利率（<%）</label>
@@ -630,7 +630,7 @@
               <div class="add-tier-form-row">
                 <label class="label-with-tip">
                   <span>最小预警盈利率（≥%）</span>
-                  <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                  <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 历史最高净充值&#10;历史最高净充值≤0时按1计算">❓</span>
                 </label>
                 <input v-model.number="newTierForm.minAlertProfitRate" type="number" placeholder="如: 450">
                 <label>最大预警盈利率（<%）</label>
@@ -721,7 +721,7 @@
                 <div class="add-tier-form-row">
                   <label class="label-with-tip">
                     <span>最小预警盈利率（≥%）</span>
-                    <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                    <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 历史最高净充值&#10;历史最高净充值≤0时按1计算">❓</span>
                   </label>
                   <input v-model.number="newTierForm.minAlertProfitRate" type="number">
                   <label>最大预警盈利率（<%）</label>
@@ -773,7 +773,7 @@
               <div class="add-tier-form-row">
                 <label class="label-with-tip">
                   <span>最小预警盈利率（≥%）</span>
-                  <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                  <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 历史最高净充值&#10;历史最高净充值≤0时按1计算">❓</span>
                 </label>
                 <input v-model.number="newTierForm.minAlertProfitRate" type="number" placeholder="如: 400">
                 <label>最大预警盈利率（<%）</label>
@@ -864,7 +864,7 @@
                 <div class="add-tier-form-row">
                   <label class="label-with-tip">
                     <span>最小预警盈利率（≥%）</span>
-                    <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                    <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 历史最高净充值&#10;历史最高净充值≤0时按1计算">❓</span>
                   </label>
                   <input v-model.number="newTierForm.minAlertProfitRate" type="number">
                   <label>最大预警盈利率（<%）</label>
@@ -916,7 +916,7 @@
               <div class="add-tier-form-row">
                 <label class="label-with-tip">
                   <span>最小预警盈利率（≥%）</span>
-                  <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 净充值&#10;净充值≤0时按1计算">❓</span>
+                  <span class="tip-icon" data-tip="触发条件: 最小值 <= 盈利率 < 最大值&#10;盈利率 = 累计盈利 / 历史最高净充值&#10;历史最高净充值≤0时按1计算">❓</span>
                 </label>
                 <input v-model.number="newTierForm.minAlertProfitRate" type="number" placeholder="如: 300">
                 <label>最大预警盈利率（<%）</label>
@@ -1205,16 +1205,23 @@
       <h4>2.5 盈利率 ⭐ 核心公式</h4>
 
       <pre>
-if (净充值 <= 0) {
+if (历史最高净充值 <= 0) {
     盈利率 = (累计盈利 / 1) × 100%
 } else {
-    盈利率 = (累计盈利 / 净充值) × 100%
+    盈利率 = (累计盈利 / 历史最高净充值) × 100%
 }
 </pre>
 
       <p><strong>边界情况处理</strong>:</p>
       <ul>
-        <li>当 `净充值 <= 0` 时: <strong>统一按净充值 = 1 USDT 计算</strong></li>
+        <li>当 `历史最高净充值 <= 0` 时: <strong>统一按历史最高净充值 = 1 USDT 计算</strong></li>
+      </ul>
+
+      <p><strong>公式优势</strong>:</p>
+      <ul>
+        <li>✅ 更合理地反映用户相对于曾经投入的最高本金的盈利能力</li>
+        <li>✅ 避免净充值为负时出现极端盈利率（如数万%）</li>
+        <li>✅ 业务含义清晰：用户相对于历史最高本金赚了多少倍</li>
       </ul>
       <hr>
 
